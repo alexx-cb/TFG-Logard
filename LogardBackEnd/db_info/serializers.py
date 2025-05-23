@@ -10,10 +10,10 @@ from .models import Product, Cart, Order, RowsOrder, CartItem, Category, User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'name', 'surname', 'email', 'password', 'role']
+        fields = ['id', 'name', 'surname', 'email', 'password', 'is_staff']
         extra_kwargs = {
             'password': {'write_only': True},
-            'role': {'read_only': True},
+            'is_staff': {'read_only': True},
         }
 
     def create(self, validated_data):
@@ -80,13 +80,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        # Añade info extra al token si quieres
-        token['email'] = user.email
-        token['role'] = user.role
         return token
 
     def validate(self, attrs):
-        email = attrs.get('username')  # porque espera username por defecto
+        email = attrs.get('username')
         password = attrs.get('password')
 
         try:

@@ -1,18 +1,16 @@
 <script setup>
-import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router'
 import router from "@/router/index.js";
+import {isAuthenticated} from "@/composables/useAuth.js";
 
 
-router.beforeEach((to, from, next)=>{
-    const isAuthenticated = !localStorage.getItem('token')
-
-    if(to.meta.requiresAuth && !isAuthenticated){
-      next('/login')
-    }else{
-      next()
-    }
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !isAuthenticated.value) {
+    next('/login')
+  } else {
+    next()
+  }
 })
-
 </script>
 
 <template>
@@ -21,8 +19,10 @@ router.beforeEach((to, from, next)=>{
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
+        <RouterLink  to="/login" v-if="!isAuthenticated">Login / Register</RouterLink>
+        <RouterLink  to="/session" v-else>Your Session</RouterLink>
         <RouterLink to="/my-orders">My Orders</RouterLink>
+        <RouterLink to="/categories">Categories</RouterLink>
       </nav>
     </div>
   </header>
