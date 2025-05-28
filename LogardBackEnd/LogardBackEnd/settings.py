@@ -35,9 +35,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'img')
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS').split(',')
 
+API_KEY_BREVO = config('API_KEY_BREVO')
+EMAIL_SENDER = config('EMAIL_SENDER')
+
 AUTH_USER_MODEL = 'db_info.User'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CORS_ALLOW_CREDENTIALS = True
 

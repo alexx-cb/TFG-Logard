@@ -1,5 +1,6 @@
-from django.core.mail import send_mail
+from django.conf import settings
 from rest_framework import serializers
+from sib_api_v3_sdk import SendSmtpEmail, Configuration, ApiClient, TransactionalEmailsApi
 
 from db_info.models import User
 from db_info.utils import generate_verification_token
@@ -23,15 +24,32 @@ class UserSerializer(serializers.ModelSerializer):
 
         token = generate_verification_token(user)
 
-        verification_link = f"http://localhost:5173/verify?token={token}"
+        verification_link = f"http://localhost:5174/verify?token={token}"
+        configuration = Configuration()
+        configuration.api_key['api-key'] = settings.API_KEY_BREVO
+        api_client = ApiClient(configuration)
+        email_api = TransactionalEmailsApi(api_client)
 
-        send_mail(
-            'Verifica tu cuenta',
-            f'Por favor verifica tu cuenta haciendo clic en el siguiente enlace:\n\n{verification_link}',
-            'no-reply@tu-dominio.com',
-            [user.email],
-            fail_silently=False,
+        # Crear el email
+        email = SendSmtpEmail(
+            to=[{"email": user.email}],
+            sender={"name": "Logard Brand", "email": settings.EMAIL_SENDER},
+            subject="Verifica tu cuenta",
+            html_content=f"""
+                    <p>Hola {user.name},</p>
+                    <p>Gracias por registrarte. Por favor verifica tu cuenta haciendo clic en el siguiente enlace:</p>
+                    <p><a href="{verification_link}">Verificar cuenta</a></p>
+                    <p>Si no creaste esta cuenta, ignora este mensaje.</p>
+                """
         )
+
+        # Enviar el email
+        try:
+            email_api.send_transac_email(email)
+        except Exception as e:
+            print("Error al enviar el email:", str(e))
+            # Aquí podrías registrar el error o lanzar una excepción personalizada
+
         return user
 
     def update(self, instance, validated_data):
