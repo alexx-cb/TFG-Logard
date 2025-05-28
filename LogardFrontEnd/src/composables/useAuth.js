@@ -1,24 +1,16 @@
 import axios from 'axios'
 import { ref } from 'vue'
+import api from "@/composables/axios.js";
 
 axios.defaults.baseURL = 'http://localhost:8000/api/'
 axios.defaults.withCredentials = true;
 
 export const isAuthenticated = ref(false)
 
-const token = sessionStorage.getItem('token')
-if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-}
 
 export async function login(email, password) {
     try {
-        const response = await axios.post('/token/', {
-            email,
-            password
-        }, {
-            withCredentials: true
-        });
+        const response = await api.post('/token/', {email,password});
 
         isAuthenticated.value = true;
         return { success: true, res:response };
@@ -44,7 +36,7 @@ export async function register(name, surname, email, password) {
 
 
 export function logout() {
-    return axios.post('/cookie-logout/', {}, { withCredentials: true }).then(() => {
+    return api.post('/cookie-logout/', {}).then(() => {
         isAuthenticated.value = false;
     });
 }
@@ -52,7 +44,7 @@ export function logout() {
 // Obtener usuario actual
 export async function getCurrentUser() {
     try {
-        const response = await axios.get('me/', {withCredentials:true})
+        const response = await api.get('me/')
         isAuthenticated.value = true
         return { success: true, res: response.data}
     } catch (err) {
@@ -62,11 +54,12 @@ export async function getCurrentUser() {
 }
 
 // Intentar refrescar el token con cookies
-async function tryRefreshToken() {
+export async function tryRefreshToken() {
     try {
-        await axios.post('/token/refresh-cookie/', {}, { withCredentials: true })
+        await api.post('/token/refresh-cookie/', {})
         return true
     } catch (e) {
+        console.log("Error en refrescar el token:", e)
         return false
     }
 }

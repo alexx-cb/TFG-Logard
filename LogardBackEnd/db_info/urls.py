@@ -1,11 +1,15 @@
 from django.conf.urls.static import static
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
+
 
 from LogardBackEnd import settings
-from .views import VerifyUserView, UserRegisterView, CurrentUserView, APIRootView, CategoryByNameView, \
-    CategoryDetailsView, CategoryListCreateView, ProductByNameView, ProductListCreateView, ProductDetailsView, \
-    CookieLogoutView, CustomTokenObtainPairView, CookieTokenRefreshView
+
+
+from .views.apiView import APIRootView
+from .views.categoryView import CategoryListCreateView, CategoryDetailsView, CategoryByNameView
+from .views.productView import ProductListCreateView, ProductDetailsView, ProductByNameView
+from .views.tokenView import CustomTokenObtainPairView, CookieTokenRefreshView, CookieLogoutView
+from .views.userView import UserRegisterView, CurrentUserView, VerifyUserView
 
 urlpatterns = [
 
