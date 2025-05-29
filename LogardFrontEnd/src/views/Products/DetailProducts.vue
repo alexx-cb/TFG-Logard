@@ -1,0 +1,17 @@
+<script setup lang="ts">
+//COMPONENTE PARA VER DETALLES DEL PRODUCTO
+
+// POSIBLES NUEVOS COMPONENTES DE UPDATE Y DELETE DEL PRODUCTO
+
+// LLAMA AL CARRITO PARA AÑADIR DICHO PRODUCTO
+
+
+</script>
+
+<template>
+
+</template>
+
+<style scoped>
+
+</style>

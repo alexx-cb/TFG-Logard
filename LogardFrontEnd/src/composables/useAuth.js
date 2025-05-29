@@ -15,7 +15,6 @@ export async function login(email, password) {
 
         isAuthenticated.value = true;
         user.value = await getCurrentUser()
-        console.log(user.value)
         return { success: true, res:response };
     } catch (error) {
         return {
@@ -50,7 +49,7 @@ export async function getCurrentUser() {
     try {
         const response = await api.get('me/')
         isAuthenticated.value = true
-        return { success: true, res: response.data}
+        return { success: true, data: response.data}
     } catch (err) {
         isAuthenticated.value = false
         user.value = null
@@ -72,9 +71,10 @@ export async function tryRefreshToken() {
 export async function initAuth() {
     const refreshed = await tryRefreshToken();
     if (refreshed) {
-        const res = await getCurrentUser();
-        if (res.success) {
-            user.value = res.res;
+        const response = await getCurrentUser();
+        console.log(response)
+        if (response.success) {
+            user.value = response.data;
             isAuthenticated.value = true;
         }
     }

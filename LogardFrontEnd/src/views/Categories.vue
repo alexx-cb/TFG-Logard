@@ -1,39 +1,71 @@
 <script setup>
-import { getCategories } from "@/composables/useCategories";
+import {getCategories, postCategories} from "@/composables/useCategories";
 import {ref, onMounted} from "vue";
+import {user} from "@/composables/useAuth.js";
+import Products from "@/views/Products/Products.vue";
 
 let categories = ref([])
+let categoryName = ref('')
+
+onMounted(()=>{
+  getAllCategories()
+})
+
 
 async function getAllCategories(){
   const response = await getCategories()
   console.log(response)
 
   if(response.success){
-    categories.value = response.response
+    categories.value = response.data.data
   }else{
     console.log("no ha llegado nada")
   }
 
 }
-onMounted(()=>{
-  getAllCategories()
-})
 
+async function createNewCategory(){
+  const response = await postCategories(categoryName.value)
+  console.log(response)
 
+  if (response.success){
+    console.log("Categoria creada correctamente")
+  }else{
+    console.log("Error al crear la categoria")
+  }
 
+}
 
 </script>
 
 <template>
   <h1>Categorias</h1>
   <div>
-    <p>{{categories}}</p>
-  </div>
+    <div v-for="category in categories" :key="category.id">
 
-  <div>
-    <form >
+      <p>{{ category.name }}</p>
+      <Products
+        :category-id="category.id"
+      ></Products>
 
-    </form>
+
+    </div>
+
+
+    <div v-if="user.is_staff">
+      <p>Eres admin</p>
+      <h2>Crear nueva Categoria</h2>
+      <form @submit.prevent="createNewCategory">
+        <label for="name">Name: </label>
+        <input type="text" id="name" v-model="categoryName">
+
+        <button type="submit">Create</button>
+
+      </form>
+    </div>
+    <div v-else>
+      <p>no eres admin</p>
+    </div>
   </div>
 </template>
 
