@@ -6,6 +6,7 @@ axios.defaults.baseURL = 'http://localhost:8000/api/'
 axios.defaults.withCredentials = true;
 
 export const isAuthenticated = ref(false)
+export const user = ref(null)
 
 
 export async function login(email, password) {
@@ -13,6 +14,8 @@ export async function login(email, password) {
         const response = await api.post('/token/', {email,password});
 
         isAuthenticated.value = true;
+        user.value = await getCurrentUser()
+        console.log(user.value)
         return { success: true, res:response };
     } catch (error) {
         return {
@@ -38,6 +41,7 @@ export async function register(name, surname, email, password) {
 export function logout() {
     return api.post('/cookie-logout/', {}).then(() => {
         isAuthenticated.value = false;
+        user.value = null
     });
 }
 
@@ -49,6 +53,7 @@ export async function getCurrentUser() {
         return { success: true, res: response.data}
     } catch (err) {
         isAuthenticated.value = false
+        user.value = null
         return { success: false, error: err?.response?.data || err?.message }
     }
 }
@@ -61,5 +66,16 @@ export async function tryRefreshToken() {
     } catch (e) {
         console.log("Error en refrescar el token:", e)
         return false
+    }
+}
+
+export async function initAuth() {
+    const refreshed = await tryRefreshToken();
+    if (refreshed) {
+        const res = await getCurrentUser();
+        if (res.success) {
+            user.value = res.res;
+            isAuthenticated.value = true;
+        }
     }
 }

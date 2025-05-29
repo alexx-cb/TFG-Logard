@@ -3,7 +3,7 @@ from rest_framework import serializers
 from sib_api_v3_sdk import SendSmtpEmail, Configuration, ApiClient, TransactionalEmailsApi
 
 from db_info.models import User
-from db_info.utils import generate_verification_token
+from db_info.utils.verification_token import generate_verification_token
 
 
 class UserSerializer(serializers.ModelSerializer):

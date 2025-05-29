@@ -18,8 +18,6 @@ api.interceptors.response.use(
 
                 if (refreshed) {
                     return api(originalRequest);
-                } else {
-                    window.location.href = '/login';
                 }
             }
 

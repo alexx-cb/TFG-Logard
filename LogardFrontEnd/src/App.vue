@@ -2,7 +2,12 @@
 import { RouterLink, RouterView } from 'vue-router'
 import router from "@/router/index.js";
 import {isAuthenticated} from "@/composables/useAuth.js";
+import { initAuth } from '@/composables/useAuth.js'
+import {onMounted} from "vue";
 
+onMounted(() => {
+  initAuth()
+})
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !isAuthenticated.value) {

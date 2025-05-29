@@ -1,6 +1,5 @@
 <script setup>
 import { getCategories } from "@/composables/useCategories";
-import axios from "axios";
 import {ref, onMounted} from "vue";
 
 let categories = ref([])
@@ -16,9 +15,6 @@ async function getAllCategories(){
   }
 
 }
-
-
-
 onMounted(()=>{
   getAllCategories()
 })
