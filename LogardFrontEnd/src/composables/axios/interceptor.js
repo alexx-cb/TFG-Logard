@@ -1,5 +1,5 @@
 import axios from "axios";
-import {tryRefreshToken} from "./useAuth.js"
+import {tryRefreshToken} from "../useAuth.js"
 
 const api = axios.create({
     baseURL : "http://localhost:8000/api/",
@@ -24,5 +24,11 @@ api.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+
+const publicApi = axios.create({
+    baseURL: 'https://localhost:8000/api/',
+    withCredentials: false
+})
+
 
 export default api

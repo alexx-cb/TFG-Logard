@@ -42,17 +42,16 @@ async function createNewCategory(){
   <h1>Categorias</h1>
   <div>
     <div v-for="category in categories" :key="category.id">
-
       <p>{{ category.name }}</p>
-      <Products
-        :category-id="category.id"
-      ></Products>
+<!--      <Products-->
+<!--        :category-id="category.id"-->
+<!--      ></Products>-->
 
 
     </div>
 
 
-    <div v-if="user.is_staff">
+    <div v-if="user && user.is_staff">
       <p>Eres admin</p>
       <h2>Crear nueva Categoria</h2>
       <form @submit.prevent="createNewCategory">

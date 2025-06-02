@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ref } from 'vue'
-import api from "@/composables/axios.js";
+import api from "@/composables/axios/interceptor.js";
 
 axios.defaults.baseURL = 'http://localhost:8000/api/'
 axios.defaults.withCredentials = true;

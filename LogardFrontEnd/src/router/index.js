@@ -6,6 +6,7 @@ import Verify from "@/views/Verify.vue";
 import Categories from "@/views/Categories.vue";
 import CreateProduct from "@/views/Products/CreateProduct.vue";
 import DetailProducts from "@/views/Products/DetailProducts.vue";
+import {isAuthenticated} from "@/composables/useAuth.js";
 
 const routes = [
     { path: '/', name: 'home',component: Landing,},
@@ -34,7 +35,13 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
-
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !isAuthenticated.value) {
+    next('/login')
+  } else {
+    next()
+  }
+})
 
 
 export default router

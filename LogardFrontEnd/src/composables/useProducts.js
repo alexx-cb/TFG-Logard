@@ -1,4 +1,4 @@
-import api from "@/composables/axios.js";
+import api from "@/composables/axios/interceptor.js";
 
 export async function getProducts(){
     try {
