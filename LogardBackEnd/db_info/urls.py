@@ -36,4 +36,4 @@ urlpatterns = [
     path('cookie-logout/', CookieLogoutView.as_view(), name='cookie_logout'),
     path('verify/', VerifyUserView.as_view(), name='verify-user'),
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

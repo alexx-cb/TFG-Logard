@@ -61,19 +61,11 @@ export async function getCurrentUser() {
 // Intentar refrescar el token con cookies
 export async function tryRefreshToken() {
     try {
-        const response = await api.post("/token/refresh-cookie/", {});
-        if (response.status === 200) {
-              // Ahora pedimos los datos del usuario con el nuevo access token
-              const me = await api.get("/me/");
-              user.value = me.data;
-              console.log("Access token refrescado correctamente.");
-              return true;
-        }
-        return false;
-      } catch (e) {
-            console.log("Error en refrescar el token:", e);
-            return false;
-      }
+        const response = await api.post('/token/refresh-cookie/', {})
+        return response.status === 200
+    } catch (err) {
+        return false
+    }
 }
 
 export async function initAuth() {

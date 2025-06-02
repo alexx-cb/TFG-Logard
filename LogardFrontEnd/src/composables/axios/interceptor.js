@@ -1,5 +1,5 @@
 import axios from "axios";
-import {tryRefreshToken} from "../useAuth.js"
+import {isAuthenticated, tryRefreshToken, user} from "../useAuth.js"
 
 const api = axios.create({
     baseURL : "http://localhost:8000/api/",
@@ -9,19 +9,24 @@ const api = axios.create({
 api.interceptors.response.use(
     response => response,
     async error => {
-        const originalRequest =error.config
+        const originalRequest = error.config
 
-        if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url.includes('/token/refresh-cookie/')){
-                originalRequest._retry = true;
+        if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url.includes('/token/refresh-cookie/')) {
+            originalRequest._retry = true;
 
-                const refreshed = await tryRefreshToken();
+            const refreshed = await tryRefreshToken();
 
-                if (refreshed) {
-                    return api(originalRequest);
-                }
+            if (refreshed) {
+                return api(originalRequest);
+            } else {
+                user.value = null;
+                isAuthenticated.value = false;
+
+                return Promise.reject(error);
             }
+        }
 
-        return Promise.reject(error)
+        return Promise.reject(error);
     }
 )
 

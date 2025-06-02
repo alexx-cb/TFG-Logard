@@ -11,8 +11,8 @@ class CookieLogoutView(APIView):
 
     def post(self, request):
         response = Response()
-        response.delete_cookie("access_token")
-        response.delete_cookie("refresh_token")
+        response.delete_cookie("access_token", path="/")
+        response.delete_cookie("refresh_token", path="/")
         try:
             refresh_token = request.COOKIES.get('refresh_token')
             token = RefreshToken(refresh_token)

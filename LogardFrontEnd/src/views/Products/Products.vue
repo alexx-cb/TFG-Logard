@@ -46,9 +46,9 @@ async function getProductsCategoryView(){
   <h1>Componente Productos</h1>
   <p>{{categoryId}}</p>
 
-  <div>
-    <p>{{products}}</p>
-
+  <div v-for="product in products" :key="product.id">
+    <p>{{ product.name }}</p>
+    <img :src="`http://localhost:8000${product.image}`" :alt="product.name" />
   </div>
 
   <div v-if="isAdmin">

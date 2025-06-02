@@ -27,10 +27,13 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-# DIR OF IMG
+# DIR OF IMG FROM THE FRONT
 MEDIA_URL =  '/img/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'img')
 
+# DIR FOR IMG STATIC FOR THE CSS
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS').split(',')

@@ -4,7 +4,7 @@ import {isAuthenticated, tryRefreshToken} from "@/composables/useAuth.js";
 import {onMounted} from "vue";
 
 onMounted(async () => {
-  await tryRefreshToken(); // Refresca el token usando el refresh_token de la cookie
+  await tryRefreshToken();
 })
 
 </script>
