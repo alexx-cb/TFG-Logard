@@ -6,8 +6,7 @@
 // ADMINPRODUCT -- > CREAR UN NUEVO PRODUCTO (FORMULARIO)
 
 import { user } from '@/composables/useAuth';
-import router from '@/router';
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import CreateProduct from "@/views/Products/CreateProduct.vue";
 
 defineProps({
@@ -15,6 +14,7 @@ defineProps({
 })
 
 const showForm = ref(false);
+const isAdmin = computed(()=>user.value?.is_staff)
 
 
 function showFormCreate() {
@@ -33,17 +33,16 @@ function showFormCreate() {
 
   </div>
 
-  <div v-if="user.is_staff">
+  <div v-if="isAdmin">
 
-      <!-- Button to share the create form-->
       <button
         @click="showFormCreate()"
       >Add Product</button>
 
     <CreateProduct
-    v-if="showForm"
-    :category-id="categoryId"
-  />
+      v-if="showForm"
+      :category-id="categoryId"
+    />
   </div>
 </template>
 

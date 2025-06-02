@@ -1,6 +1,6 @@
 <script setup>
 import {getCategories, postCategories} from "@/composables/useCategories";
-import {ref, onMounted} from "vue";
+import {ref, onMounted, computed} from "vue";
 import {user} from "@/composables/useAuth.js";
 import Products from "@/views/Products/Products.vue";
 
@@ -11,6 +11,7 @@ onMounted(()=>{
   getAllCategories()
 })
 
+const isAdmin = computed(() => user.value?.is_staff === true)
 
 async function getAllCategories(){
   const response = await getCategories()
@@ -30,6 +31,7 @@ async function createNewCategory(){
 
   if (response.success){
     console.log("Categoria creada correctamente")
+    await getAllCategories()
   }else{
     console.log("Error al crear la categoria")
   }
@@ -43,15 +45,15 @@ async function createNewCategory(){
   <div>
     <div v-for="category in categories" :key="category.id">
       <p>{{ category.name }}</p>
-<!--      <Products-->
-<!--        :category-id="category.id"-->
-<!--      ></Products>-->
+      <Products
+        :category-id="category.id"
+      ></Products>
 
 
     </div>
 
 
-    <div v-if="user && user.is_staff">
+    <div v-if="isAdmin">
       <p>Eres admin</p>
       <h2>Crear nueva Categoria</h2>
       <form @submit.prevent="createNewCategory">

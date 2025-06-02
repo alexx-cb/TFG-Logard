@@ -1,8 +1,9 @@
 import api from "@/composables/axios/interceptor.js";
+import publicApi from "@/composables/axios/publicApi.js";
 
 export async function getProducts(){
     try {
-        const response = await api.get('products')
+        const response = await publicApi.get('products')
         return {success: true, data: response}
     }catch (err){
         console.log("Error al hacer el get de los productos")
@@ -10,13 +11,19 @@ export async function getProducts(){
     }
 }
 
-export async function postProduct(name, description, price, discount, image, category){
+export async function postProduct(formData){
     try{
-        const response = await api.post('products',
-            {name, description, price, discount, image,category})
+        const response = await api.post('products/',
+            formData,
+            { headers: {
+                'Content-Type': 'multipart/form-data'
+                }
+            }
+        )
         console.log("Producto creado correctamente")
         return {success:true, data: response}
     }catch(err){
-        console.log("Error al hacer el post del producto")
+        console.log("Error al hacer el post del producto: " + err)
+        return {success:false, data: err}
     }
 }
