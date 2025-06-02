@@ -7,7 +7,7 @@ from LogardBackEnd import settings
 
 from .views.apiView import APIRootView
 from .views.categoryView import CategoryListCreateView, CategoryDetailsView, CategoryByNameView
-from .views.productView import ProductListCreateView, ProductDetailsView, ProductByNameView
+from .views.productView import ProductListCreateView, ProductDetailsView, ProductByNameView, ProductListCategoryView
 from .views.tokenView import CustomTokenObtainPairView, CookieTokenRefreshView, CookieLogoutView
 from .views.userView import UserRegisterView, CurrentUserView, VerifyUserView
 
@@ -26,6 +26,7 @@ urlpatterns = [
     path('categories/search/<str:name>', CategoryByNameView.as_view(), name='category-search'),
 
     path('products/', ProductListCreateView.as_view(), name='product-list'),
+    path('products/category/<int:pk>/', ProductListCategoryView.as_view(), name='product-category'),
     path('products/<int:pk>/', ProductDetailsView.as_view(), name='product-details'),
     path('products/search/<str:name>/', ProductByNameView.as_view(), name='product-search'),
 

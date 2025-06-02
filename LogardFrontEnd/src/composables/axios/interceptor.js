@@ -25,10 +25,4 @@ api.interceptors.response.use(
     }
 )
 
-const publicApi = axios.create({
-    baseURL: 'https://localhost:8000/api/',
-    withCredentials: false
-})
-
-
 export default api

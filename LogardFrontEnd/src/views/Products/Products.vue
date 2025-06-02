@@ -6,19 +6,37 @@
 // ADMINPRODUCT -- > CREAR UN NUEVO PRODUCTO (FORMULARIO)
 
 import { user } from '@/composables/useAuth';
-import {computed, ref} from "vue";
-import CreateProduct from "@/views/Products/CreateProduct.vue";
+import {computed, defineAsyncComponent, onMounted, ref} from "vue";;
+import { getProductsCategory} from "@/composables/useProducts.js";
 
-defineProps({
+
+const CreateProductAsync = defineAsyncComponent(() => import('@/views/Products/CreateProduct.vue'))
+const props = defineProps({
   categoryId:Number
+})
+
+onMounted(()=>{
+  getProductsCategoryView()
 })
 
 const showForm = ref(false);
 const isAdmin = computed(()=>user.value?.is_staff)
 
+const products = ref([])
 
-function showFormCreate() {
-  showForm.value = true
+async function getProductsCategoryView(){
+  try {
+    const response = await getProductsCategory(props.categoryId)
+    if (response.success){
+      products.value = response.data.data
+    }else{
+      console.log("Error en la vista: "+ response)
+    }
+
+  }catch (err){
+    console.log("Error en el get de productos: " + err)
+
+  }
 }
 
 </script>
@@ -29,20 +47,13 @@ function showFormCreate() {
   <p>{{categoryId}}</p>
 
   <div>
-
+    <p>{{products}}</p>
 
   </div>
 
   <div v-if="isAdmin">
-
-      <button
-        @click="showFormCreate()"
-      >Add Product</button>
-
-    <CreateProduct
-      v-if="showForm"
-      :category-id="categoryId"
-    />
+    <button @click="showForm = true">Add Product</button>
+    <component :is="showForm ? CreateProductAsync : null" :category-id="categoryId" />
   </div>
 </template>
 

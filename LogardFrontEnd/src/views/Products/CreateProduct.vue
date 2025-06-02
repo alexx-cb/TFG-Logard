@@ -34,9 +34,7 @@ async function createProduct(){
 
   try{
     const response = await postProduct(formData)
-
     if (response.success){
-      console.log("Producto creado con exito")
     }else{
       console.log("Error en la respuesta")
       console.log(response)

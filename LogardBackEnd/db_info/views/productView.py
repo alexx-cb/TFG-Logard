@@ -24,6 +24,13 @@ class ProductListCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ProductListCategoryView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    def get(self, request, pk):
+        products = Product.objects.filter(category=pk)
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+
 class ProductDetailsView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
