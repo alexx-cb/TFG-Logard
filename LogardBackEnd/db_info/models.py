@@ -2,6 +2,7 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.db.models import PROTECT
 
 # Create your models here.
 
@@ -50,7 +51,7 @@ class Product ( models.Model ):
     price = models.DecimalField( max_digits=10, decimal_places=2 )
     discount = models.DecimalField( max_digits=10, decimal_places=2, default=0 )
     image = models.ImageField( upload_to='products/', blank=True, null=True, validators=[FileExtensionValidator(['jpg', 'jpeg', 'png', 'gif'])] )
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=PROTECT)
 
     def __str__(self):
         return self.name
@@ -63,15 +64,16 @@ class Order(models.Model):
     status = models.CharField(max_length=50)
     date = models.DateField()
     time = models.TimeField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=PROTECT)
 
     def __str__(self):
         return f'Order #{self.id} by {self.user.email}'
 
 class RowsOrder(models.Model):
     units = models.IntegerField()
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    size = models.CharField(max_length=255, default='M')
+    order = models.ForeignKey(Order, on_delete=PROTECT)
+    product = models.ForeignKey(Product, on_delete=PROTECT)
 
     def __str__(self):
         return f'{self.units} x {self.product.name} (Order #{self.order.id})'

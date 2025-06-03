@@ -48,7 +48,7 @@ class CategoryDetailsView(APIView):
 
     def patch(self, request, pk):
         category = get_object_or_404(Category, id=pk)
-        serializer = CategorySerializer(category, data=request.data)
+        serializer = CategorySerializer(category, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

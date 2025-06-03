@@ -23,7 +23,7 @@ urlpatterns = [
     # Categories
     path('categories/', CategoryListCreateView.as_view(), name='category-list'),
     path('categories/<int:pk>/', CategoryDetailsView.as_view(), name='category-detail'),
-    path('categories/search/<str:name>', CategoryByNameView.as_view(), name='category-search'),
+    path('categories/search/<str:name>/', CategoryByNameView.as_view(), name='category-search'),
 
     path('products/', ProductListCreateView.as_view(), name='product-list'),
     path('products/category/<int:pk>/', ProductListCategoryView.as_view(), name='product-category'),
