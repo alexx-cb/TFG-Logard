@@ -1,8 +1,9 @@
 <script setup>
-import {getCategories, postCategories} from "@/composables/useCategories";
+import {getCategories, postCategories} from "@/composables/useCategories.js";
 import {ref, onMounted, computed, watch} from "vue";
 import {user} from "@/composables/useAuth.js";
 import Products from "@/views/Products/Products.vue";
+import UpdateDeleteCategories from "@/views/Categories/UpdateDeleteCategories.vue";
 
 let categories = ref([])
 let categoryName = ref('')
@@ -38,6 +39,7 @@ async function createNewCategory(){
 
   if (response.success){
     console.log("Categoria creada correctamente")
+    categoryName.value =''
     await getAllCategories()
   }else{
     console.log("Error al crear la categoria")
@@ -52,8 +54,15 @@ async function createNewCategory(){
 
   <!-- Mostrar siempre las categorías -->
   <div v-for="category in categories" :key="category.id">
-    <p>{{ category.name }}</p>
+    <p>NOMBRE CATEGORIA:  {{ category.name }}</p>
     <Products :category-id="category.id" />
+
+    <div v-if="isAdmin">
+      <UpdateDeleteCategories
+          :category-id="category.id"
+          @category-updated="getAllCategories"
+      />
+    </div>
   </div>
 
   <!-- Mostrar contenido según rol -->

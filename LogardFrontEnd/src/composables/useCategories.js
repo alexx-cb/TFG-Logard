@@ -21,3 +21,23 @@ export async function postCategories(name){
         return { success: false, error: err?.response?.data || err?.message }
     }
 }
+
+export async function updateCategory(id, name){
+    try{
+        const response = await api.patch(`categories/${id}/`, { name })
+        return {success: true, data:response}
+    }catch (err){
+        console.log("Error al actualizar la categoria: " +err)
+        return {success: false, error: err?.response?.value || err?.message}
+    }
+}
+
+export async function deleteCategory(id){
+    try{
+        const response =await api.delete(`categories/${id}/`)
+        return {success:true, data:response}
+    }catch(err){
+        console.log("No se puede eliminar una categoria que tiene productos asociados")
+        return {success: false, error: err?.response?.value || err?.message}
+    }
+}

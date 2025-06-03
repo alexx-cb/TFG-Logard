@@ -16,6 +16,7 @@ const image = ref(null)
 const props = defineProps({
   categoryId: Number
 })
+const emit = defineEmits(['update-product'])
 
 function imageContainer(event) {
   image.value = event.target.files[0]
@@ -35,6 +36,8 @@ async function createProduct(){
   try{
     const response = await postProduct(formData)
     if (response.success){
+      emit('update-product')
+      console.log("producto creado con exito")
     }else{
       console.log("Error en la respuesta")
       console.log(response)

@@ -3,7 +3,7 @@ import Landing from '../views/Landing.vue'
 import Auth from '../views/Auth.vue'
 import Orders from '../views/Orders.vue'
 import Verify from "@/views/Verify.vue";
-import Categories from "@/views/Categories.vue";
+import Categories from "@/views/Categories/Categories.vue";
 import CreateProduct from "@/views/Products/CreateProduct.vue";
 import DetailProducts from "@/views/Products/DetailProducts.vue";
 import {isAuthenticated} from "@/composables/useAuth.js";

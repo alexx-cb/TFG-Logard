@@ -20,6 +20,7 @@ export async function postProduct(formData){
                 }
             }
         )
+        return {success: true, data:response}
     }catch(err){
         console.log("Error al hacer el post del producto: " + err)
         return {success:false, data: err}

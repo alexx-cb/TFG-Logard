@@ -53,7 +53,7 @@ async function getProductsCategoryView(){
 
   <div v-if="isAdmin">
     <button @click="showForm = true">Add Product</button>
-    <component :is="showForm ? CreateProductAsync : null" :category-id="categoryId" />
+    <component :is="showForm ? CreateProductAsync : null" @update-product="getProductsCategoryView" :category-id="categoryId" />
   </div>
 </template>
 
