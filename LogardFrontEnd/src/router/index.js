@@ -4,11 +4,12 @@ import Auth from '../views/Auth.vue'
 import Orders from '../views/Orders.vue'
 import Verify from "@/views/Verify.vue";
 import Categories from "@/views/Categories/Categories.vue";
-import CreateProduct from "@/views/Products/CreateProduct.vue";
 import DetailProducts from "@/views/Products/DetailProducts.vue";
 import {isAuthenticated} from "@/composables/useAuth.js";
+import Cart from "@/views/Cart.vue";
 
 const routes = [
+    // Landing Page
     { path: '/', name: 'home',component: Landing,},
 
     // User Routes (LOGIN, REGISTER, SESSION)
@@ -24,6 +25,9 @@ const routes = [
 
     // Orders Routes (MY-ORDERS)
     { path: '/my-orders',name: 'orders', meta: {requiresAuth: true},component: Orders },
+
+    // Cart Routes (SHOW_CART)
+    { path: '/cart', name:'cart', meta:{requiresAuth: true}, component: Cart},
 
     // Verify Account Route (VERIFY)
     { path: '/verify', name: 'verify-user', component: Verify},

@@ -3,6 +3,7 @@ import {useRoute, useRouter} from "vue-router";
 import {computed, onMounted, ref} from "vue";
 import {deleteProduct, getProductDetails, patchProduct} from "@/composables/useProducts";
 import {user} from "@/composables/useAuth.js";
+import Cart from "@/views/Cart.vue";
 
 const route = useRoute();
 const router = useRouter()
@@ -126,9 +127,6 @@ async function deleteProductView(){
     <p>Pulsa <span @click="deleteProductView">Aqui</span> para eliminar el producto</p>
 
   </div>
-
-
-
 
   <!-- NAME -->
   <form @submit.prevent="updateProduct">

@@ -95,11 +95,10 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     units = models.IntegerField(default=1)
+    size = models.CharField(max_length=255, default='M')
 
     class Meta:
-        unique_together = ('cart', 'product')
+        unique_together = ('cart', 'product', 'size')
 
     def __str__(self):
         return f'{self.units} x {self.product.name} (Cart of {self.cart.user.email})'
-
-

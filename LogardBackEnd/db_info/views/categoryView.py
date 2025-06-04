@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from db_info.models import Category
-from db_info.serializers.PermissionClass import IsAdminOrReadOnly
+from db_info.utils.PermissionClass import IsAdminOrReadOnly
 from db_info.serializers.categorySerializer import CategorySerializer
 
 

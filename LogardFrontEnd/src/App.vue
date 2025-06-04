@@ -19,6 +19,7 @@ onMounted(async () => {
         <RouterLink  to="/session" v-else>Your Session</RouterLink>
         <RouterLink to="/my-orders">My Orders</RouterLink>
         <RouterLink to="/categories">Categories</RouterLink>
+        <RouterLink to="/cart">Cart</RouterLink>
       </nav>
     </div>
   </header>

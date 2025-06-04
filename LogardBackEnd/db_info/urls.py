@@ -6,6 +6,7 @@ from LogardBackEnd import settings
 
 
 from .views.apiView import APIRootView
+from .views.cartView import CartDetailView, UpdateCartItemView
 from .views.categoryView import CategoryListCreateView, CategoryDetailsView, CategoryByNameView
 from .views.productView import ProductListCreateView, ProductDetailsView, ProductByNameView, ProductListCategoryView
 from .views.tokenView import CustomTokenObtainPairView, CookieTokenRefreshView, CookieLogoutView
@@ -15,7 +16,7 @@ urlpatterns = [
 
     path('', APIRootView.as_view(), name='api-root'),
 
-    # Usuario
+    # User
     path('user/', UserRegisterView.as_view(), name='user-register'),
     path('me/', CurrentUserView.as_view(), name='user-detail'),
 
@@ -25,10 +26,16 @@ urlpatterns = [
     path('categories/<int:pk>/', CategoryDetailsView.as_view(), name='category-detail'),
     path('categories/search/<str:name>/', CategoryByNameView.as_view(), name='category-search'),
 
+    # Products
     path('products/', ProductListCreateView.as_view(), name='product-list'),
     path('products/category/<int:pk>/', ProductListCategoryView.as_view(), name='product-category'),
     path('products/<int:pk>/', ProductDetailsView.as_view(), name='product-details'),
     path('products/search/<str:name>/', ProductByNameView.as_view(), name='product-search'),
+
+    #Cart
+    path('cart/', CartDetailView.as_view(), name='cart-details'),
+    path('cart/update/<int:pk>/', UpdateCartItemView.as_view(), name='cart-update'),
+
 
     # JWT
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
