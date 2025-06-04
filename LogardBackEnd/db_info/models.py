@@ -1,3 +1,4 @@
+import os
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.core.validators import FileExtensionValidator
@@ -55,6 +56,12 @@ class Product ( models.Model ):
 
     def __str__(self):
         return self.name
+
+    # Delete image from the dir if exists
+    def delete(self, *args, **kwargs):
+        if self.image and os.path.isfile(self.image.path):
+            os.remove(self.image.path)
+        super().delete(*args, **kwargs)
 
 class Order(models.Model):
     address = models.CharField(max_length=255)

@@ -17,6 +17,7 @@ class CategorySerializer(serializers.ModelSerializer):
         return category
 
     def update(self, instance, validated_data):
-        instance.name = validated_data.get('name', instance.name)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
         instance.save()
         return instance

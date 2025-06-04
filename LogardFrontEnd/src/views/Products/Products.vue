@@ -3,12 +3,11 @@
 
 // SE LLAMA A:
 // DETAIL -- > DATOS DEL PRODUCTO Y EDITAR LOS DATOS DE ESE PRODUCTO
-// ADMINPRODUCT -- > CREAR UN NUEVO PRODUCTO (FORMULARIO)
+// CREATEPRODUCT -- > CREAR UN NUEVO PRODUCTO (FORMULARIO)
 
 import { user } from '@/composables/useAuth';
-import {computed, defineAsyncComponent, onMounted, ref} from "vue";;
+import {computed, defineAsyncComponent, onMounted, ref} from "vue";
 import { getProductsCategory} from "@/composables/useProducts.js";
-
 
 const CreateProductAsync = defineAsyncComponent(() => import('@/views/Products/CreateProduct.vue'))
 const props = defineProps({
@@ -32,7 +31,6 @@ async function getProductsCategoryView(){
     }else{
       console.log("Error en la vista: "+ response)
     }
-
   }catch (err){
     console.log("Error en el get de productos: " + err)
 
@@ -46,10 +44,16 @@ async function getProductsCategoryView(){
   <h1>Componente Productos</h1>
   <p>{{categoryId}}</p>
 
-  <div v-for="product in products" :key="product.id">
-    <p>{{ product.name }}</p>
-    <img :src="`http://localhost:8000${product.image}`" :alt="product.name" />
-  </div>
+  <router-link
+      v-for="product in products"
+      :to="`/detail-product/${product.id}`"
+      :key="product.id"
+  >
+    <div>
+      <p>{{ product.name }}</p>
+      <img :src="`http://localhost:8000${product.image}`" :alt="product.name" />
+    </div>
+  </router-link>
 
   <div v-if="isAdmin">
     <button @click="showForm = true">Add Product</button>

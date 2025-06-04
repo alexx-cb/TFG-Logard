@@ -1,15 +1,15 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from db_info.models import Category
+from db_info.serializers.PermissionClass import IsAdminOrReadOnly
 from db_info.serializers.categorySerializer import CategorySerializer
 
 
 class CategoryListCreateView(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request):
         categories = Category.objects.all()
@@ -31,7 +31,7 @@ class CategoryListCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CategoryDetailsView(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request, pk):
         category = get_object_or_404(Category, id=pk)
@@ -62,7 +62,7 @@ class CategoryDetailsView(APIView):
 
 
 class CategoryByNameView(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request, name):
         categories = Category.objects.filter(name__icontains=name)

@@ -16,9 +16,8 @@ const routes = [
     { path: '/register',name:'register' ,component: Auth },
     { path: '/session',name:'your-session', component: Auth, meta: { requiresAuth: true }},
 
-    // Products Routes (CREATE-PRODUCT, DETAIL)
-    { path: '/create-product', name: 'create-product',meta:{requiresAuth: true}, component: CreateProduct},
-    { path: '/detail-product', name: 'detail-product', component: DetailProducts},
+    // Products Routes (DETAIL)
+    { path: '/detail-product/:id', name: 'detail-product', component: DetailProducts},
 
     // Categories Routes (SHOW-CATEGORIES)
     { path: '/categories', name: 'categories-list', component: Categories},
