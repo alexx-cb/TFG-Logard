@@ -3,11 +3,11 @@ import {useRoute, useRouter} from "vue-router";
 import {computed, onMounted, ref} from "vue";
 import {deleteProduct, getProductDetails, patchProduct} from "@/composables/useProducts";
 import {user} from "@/composables/useAuth.js";
-import Cart from "@/views/Cart.vue";
+import AddCart from "@/views/Cart/AddCart.vue";
 
 const route = useRoute();
 const router = useRouter()
-const productId = route.params.id;
+const productId = Number(route.params.id);
 
 const product = ref({});
 const productOriginal = ref({});
@@ -75,7 +75,7 @@ async function updateProduct() {
   if (price.value && price.value !== productOriginal.value.price) {
     formData.append("price", price.value.toString());
   }
-  if (discount.value && discount.value !== productOriginal.value.discount) {
+  if (discount.value !== productOriginal.value.discount) {
     formData.append("discount", discount.value.toString());
   }
   if (image.value) {
@@ -191,4 +191,8 @@ async function deleteProductView(){
       <input type="submit" value="Update Image" v-if="isEditing.image.value" />
     </div>
   </form>
+
+  <AddCart
+    :product-id="productId"
+  />
 </template>

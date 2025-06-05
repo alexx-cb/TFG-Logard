@@ -6,7 +6,7 @@ import Verify from "@/views/Verify.vue";
 import Categories from "@/views/Categories/Categories.vue";
 import DetailProducts from "@/views/Products/DetailProducts.vue";
 import {isAuthenticated} from "@/composables/useAuth.js";
-import Cart from "@/views/Cart.vue";
+import Cart from "@/views/Cart/Cart.vue";
 
 const routes = [
     // Landing Page

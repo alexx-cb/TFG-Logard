@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import permissions, status
+from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -8,7 +9,7 @@ from db_info.serializers.cartSerializer import CartSerializer, CartItemSerialize
 
 
 class CartDetailView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         cart, created = Cart.objects.get_or_create(user=request.user)
@@ -41,7 +42,7 @@ class CartDetailView(APIView):
 
 
 class UpdateCartItemView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def patch(self, request, pk):
         cart = get_object_or_404(Cart, user=request.user)
