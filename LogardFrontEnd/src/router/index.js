@@ -7,6 +7,7 @@ import Categories from "@/views/Categories/Categories.vue";
 import DetailProducts from "@/views/Products/DetailProducts.vue";
 import {isAuthenticated} from "@/composables/useAuth.js";
 import Cart from "@/views/Cart/Cart.vue";
+import AnonymousCart from "@/views/Cart/AnonymousCart.vue";
 
 const routes = [
     // Landing Page
@@ -26,8 +27,10 @@ const routes = [
     // Orders Routes (MY-ORDERS)
     { path: '/my-orders',name: 'orders', meta: {requiresAuth: true},component: Orders },
 
-    // Cart Routes (SHOW_CART)
-    { path: '/cart', name:'cart', meta:{requiresAuth: true}, component: Cart},
+    // Cart Routes (SHOW_CART, ANONYMOUS_CART)
+    { path: '/cart', name:'cart', component: Cart},
+    { path: '/anonymous-cart', name:'anonymous-cart', component: AnonymousCart},
+
 
     // Verify Account Route (VERIFY)
     { path: '/verify', name: 'verify-user', component: Verify},

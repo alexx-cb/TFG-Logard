@@ -1,52 +1,37 @@
 <script setup>
-
-import {addToCart} from "@/composables/useCart.js";
-import {ref} from "vue";
+import { ref } from "vue";
+import { addToLocalCart, addToUserCart } from "@/composables/useCart.js";
+import {isAuthenticated} from "@/composables/useAuth.js";
 
 const props = defineProps({
-  productId:Number,
-})
+  productId: Number,
+});
 
-const size = ref('')
+const size = ref("M");
 
-async function addCart(){
-  try{
-    const response = await addToCart(props.productId, size.value)
+async function addCart() {
+  if (!props.productId) return;
 
-    if(response.success){
-      alert("Producto añadido al carrito correctamente")
-      console.log(response.data.data)
-    }
+  if (isAuthenticated.value) {
+    const res = await addToUserCart(props.productId, size.value, 1);
+    if (res.success) alert("Producto añadido al carrito (backend)");
+    else alert("Error al añadir producto: " + res.error);
 
-  }catch(err){
-    console.log("Error añadiendo el producto: " +err)
+  } else {
+    addToLocalCart(props.productId, size.value, 1);
+    alert("Producto añadido al carrito (localStorage)");
   }
 }
 </script>
 
 <template>
-
-
-
-  <div>
-    <form @submit.prevent="addCart">
-      <input type="hidden" :value="productId" />
-
-      <select v-model="size">
-        <option>S</option>
-        <option>M</option>
-        <option>L</option>
-        <option>XL</option>
-
-      </select>
-
-      <input type="submit" value="Add To Cart"/>
-    </form>
-
-
-  </div>
+  <form @submit.prevent="addCart">
+    <select v-model="size">
+      <option>S</option>
+      <option>M</option>
+      <option>L</option>
+      <option>XL</option>
+    </select>
+    <input type="submit" value="Add To Cart" />
+  </form>
 </template>
-
-<style scoped>
-
-</style>

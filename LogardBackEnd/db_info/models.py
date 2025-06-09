@@ -1,7 +1,7 @@
 import os
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
-from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator, MinValueValidator
 from django.db import models
 from django.db.models import PROTECT
 
@@ -94,7 +94,7 @@ class Cart(models.Model):
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    units = models.IntegerField(default=1)
+    units = models.IntegerField(default=1, validators=[MinValueValidator(1)])
     size = models.CharField(max_length=255, default='M')
 
     class Meta:

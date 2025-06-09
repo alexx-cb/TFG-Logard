@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -68,3 +70,20 @@ class ProductByNameView(APIView):
         products = Product.objects.filter(name__icontains=name)
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def product_info_list(request):
+    """
+    Recibe una lista de IDs de producto en JSON:
+    { "product_ids": [1, 2, 3] }
+    Devuelve lista con info de esos productos.
+    """
+    product_ids = request.data.get('product_ids', [])
+    if not isinstance(product_ids, list) or not all(isinstance(i, int) for i in product_ids):
+        return Response({"error": "Se espera una lista de IDs de producto (enteros)."}, status=status.HTTP_400_BAD_REQUEST)
+
+    products = Product.objects.filter(id__in=product_ids)
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)

@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import {isAuthenticated, tryRefreshToken} from "@/composables/useAuth.js";
 import {onMounted} from "vue";
+import AnonymousCart from "@/views/Cart/AnonymousCart.vue";
 
 onMounted(async () => {
   await tryRefreshToken();
@@ -19,7 +20,8 @@ onMounted(async () => {
         <RouterLink  to="/session" v-else>Your Session</RouterLink>
         <RouterLink to="/my-orders">My Orders</RouterLink>
         <RouterLink to="/categories">Categories</RouterLink>
-        <RouterLink to="/cart">Cart</RouterLink>
+        <RouterLink to="/cart" v-if="isAuthenticated">Cart</RouterLink>
+        <RouterLink to="/anonymous-cart" v-else>AnonymousCart</RouterLink>
       </nav>
     </div>
   </header>

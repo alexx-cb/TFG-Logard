@@ -2,7 +2,7 @@
 import {getUserCart} from "@/composables/useCart.js";
 import {onMounted, ref} from "vue";
 
-const cart = ref({})
+const cart = ref([])
 
 onMounted(()=>{
   getCart()
@@ -12,7 +12,7 @@ async function getCart(){
   try{
     const response = await getUserCart()
     if (response.success){
-      cart.value = response.data.data
+      cart.value = response.data
     }
   }catch(err){
     console.log("Error en la vista del carrito: "+err)

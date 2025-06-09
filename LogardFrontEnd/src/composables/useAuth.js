@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { ref } from 'vue'
 import api from "@/composables/axios/interceptor.js";
+import {mergeLocalCartToUser} from "@/composables/useCart.js";
 
 axios.defaults.baseURL = 'http://localhost:8000/api/'
 axios.defaults.withCredentials = true;
@@ -15,6 +16,12 @@ export async function login(email, password) {
 
         isAuthenticated.value = true;
         user.value = await getCurrentUser()
+
+        const mergeResult = await mergeLocalCartToUser();
+        if (!mergeResult.success) {
+            console.warn("Carrito local no pudo fusionarse:", mergeResult.error);
+        }
+
         return { success: true, res:response };
     } catch (error) {
         return {
