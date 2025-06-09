@@ -33,7 +33,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'img')
 
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS').split(',')
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
+]
 
 API_KEY_BREVO = config('API_KEY_BREVO')
 EMAIL_SENDER = config('EMAIL_SENDER')
@@ -61,8 +64,8 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+        'db_info.utils.CookieJWTAuthentication.CookieJWTAuthentication',
+    )
 }
 
 MIDDLEWARE = [

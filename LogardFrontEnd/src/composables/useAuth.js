@@ -68,9 +68,17 @@ export async function getCurrentUser() {
 // Intentar refrescar el token con cookies
 export async function tryRefreshToken() {
     try {
-        const response = await api.post('/token/refresh-cookie/', {})
+        console.log("🔄 Attempting token refresh...")
+
+        const response = await axios.post('http://localhost:8000/api/token/refresh-cookie/', {})
+
+        console.log("✅ Refresh successful:", response.status)
+        console.log("Response data:", response.data)
+
         return response.status === 200
     } catch (err) {
+        console.log("❌ Refresh failed:", err.response?.status)
+        console.log("Error details:", err.response?.data)
         return false
     }
 }

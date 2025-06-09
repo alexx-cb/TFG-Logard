@@ -2,6 +2,8 @@ import api from "@/composables/axios/interceptor.js";
 
 const LOCAL_CART_KEY = "local_cart";
 
+const newUnits = 0
+
 export function getLocalCart() {
     const json = localStorage.getItem(LOCAL_CART_KEY);
     return json ? JSON.parse(json) : [];
@@ -73,6 +75,14 @@ export async function getUserCart() {
     } catch (err) {
         console.error("Error fetching user cart:", err);
         return { success: false, error: err?.response?.data || err?.message };
+    }
+}
+
+export async function AddOneUnit(id){
+    try{
+        const response = await api.patch(`cart/update/${id}`, {newUnits})
+    }catch(err){
+        console.log("Error añadiendo 1 unidad: "+err)
     }
 }
 
