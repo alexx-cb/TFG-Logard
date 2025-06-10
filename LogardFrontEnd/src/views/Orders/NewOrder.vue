@@ -32,13 +32,14 @@ async function submitOrder() {
     address: address.value,
     locality: locality.value,
     province: province.value,
-    cart_items: cart.value.items
+    cart_items: cart.value.items,
+    payment_method_id: "paypal"
   });
   if (response.success) {
     approvalUrl.value = response.approval_url;
     window.location.href = approvalUrl.value;
   } else {
-    errorMsg.value = "Error al crear el pedido: " + (response.error?.detail || response.error || "Desconocido");
+    errorMsg.value = "Error al crear el pedido: " + JSON.stringify(response.error);
   }
 }
 </script>
@@ -48,6 +49,7 @@ async function submitOrder() {
     <h2>Resumen del pedido</h2>
     <ul>
       <li v-for="item in cart.items" :key="item.id">
+        {{item}}
         <img :src="item.image" alt="" style="width: 40px; vertical-align: middle; margin-right: 8px;">
         {{ item.product_name }} ({{ item.size }}) x {{ item.units }}
         <span v-if="item.product_discount && item.product_discount !== '0.00'">

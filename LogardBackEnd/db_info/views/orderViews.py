@@ -30,7 +30,7 @@ class OrderCreateView(APIView):
                 address=data['address'],
                 locality=data['locality'],
                 province=data['province'],
-                cost=data['cost'],
+                cost=total,
                 status="Payment Pending",
                 date = now.date(),
                 time=now.time(),
@@ -41,12 +41,12 @@ class OrderCreateView(APIView):
                     units= item['units'],
                     size=item['size'],
                     order=order,
-                    product_id=item['product_id'],
+                    product_id=item['product'],
                 )
 
             paypal = PayPalService()
-            return_url = request.build_absolute_uri(reverse('orders:paypal-execute')) + f"?order_id={order.id}"
-            cancel_url = request.build_absolute_uri(reverse('orders:paypal-cancel')) + f"?order_id={order.id}"
+            return_url = request.build_absolute_uri(reverse('paypal-execute')) + f"?order_id={order.id}"
+            cancel_url = request.build_absolute_uri(reverse('paypal-cancel')) + f"?order_id={order.id}"
             payment = paypal.create_payment(total, currency, return_url, cancel_url)
 
             for link in payment['links']:

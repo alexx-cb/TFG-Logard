@@ -12,7 +12,7 @@ class RowsOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RowsOrder
-        fileds= ['id', 'units', 'size', 'product', 'product_name', 'product_price', 'product_discount',
+        fields= ['id', 'units', 'size', 'product', 'product_name', 'product_price', 'product_discount',
                  'unit_price_with_discount', 'total_price']
 
     def get_unit_price_with_discount(self, obj):
@@ -38,12 +38,13 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class CreateOrderSerializer(serializers.ModelSerializer):
-    address = serializers.CharField(max_length=255)
-    locality = serializers.CharField(max_length=255)
-    province = serializers.CharField(max_length=255)
-    payment_method_id = serializers.CharField()
+    payment_method_id = serializers.CharField(required=False, allow_blank=True)
 
     def validate(self, data):
         if not all([data.get('address'), data.get('locality'), data.get('province')]):
             raise serializers.ValidationError('All fields are required')
         return data
+
+    class Meta:
+        model = Order
+        fields = ['address', 'locality', 'province', 'payment_method_id']
