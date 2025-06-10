@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from db_info.Services.EmailService import EmailService
 from db_info.models import Order, RowsOrder, Cart, Product
 from db_info.payments.paypalService import PayPalService
 from db_info.serializers.OrderSerializer import CreateOrderSerializer
@@ -123,6 +124,10 @@ class PaypalExecuteView(APIView):
 
             order.status = 'Paid'
             order.save()
+
+            user = request.user
+            rows = list(order.rowsorder_set.select_related('product').all())
+            email_sent = EmailService.send_order_confirmation_email(order, user, rows)
 
             Cart.objects.filter(user=request.user).delete()
 

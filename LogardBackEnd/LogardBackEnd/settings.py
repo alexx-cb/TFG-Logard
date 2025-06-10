@@ -37,9 +37,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5174",
     "http://127.0.0.1:5174",
 ]
-
-API_KEY_BREVO = config('API_KEY_BREVO')
+EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
+ANYMAIL = {
+    "BREVO_API_KEY": config('API_KEY_BREVO'),
+}
 EMAIL_SENDER = config('EMAIL_SENDER')
+DEFAULT_FROM_EMAIL = config('EMAIL_SENDER')
 
 AUTH_USER_MODEL = 'db_info.User'
 
@@ -61,6 +64,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'anymail',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'db_info',
