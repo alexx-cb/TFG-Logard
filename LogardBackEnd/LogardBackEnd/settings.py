@@ -44,6 +44,10 @@ EMAIL_SENDER = config('EMAIL_SENDER')
 AUTH_USER_MODEL = 'db_info.User'
 
 
+PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
+PAYPAL_CLIENT_SECRET = config('PAYPAL_CLIENT_SECRET')
+PAYPAL_MODE = 'sandbox' # 'live' in production
+
 CORS_ALLOW_CREDENTIALS = True
 
 # Application definition

@@ -8,6 +8,7 @@ from .views.MergeCartView import MergeCartView
 from .views.apiView import APIRootView
 from .views.cartView import CartDetailView, UpdateCartItemView, ClearCartView
 from .views.categoryView import CategoryListCreateView, CategoryDetailsView, CategoryByNameView
+from .views.orderViews import OrderCreateView, PaypalExecuteView, PayPalCancelView
 from .views.productView import ProductListCreateView, ProductDetailsView, ProductByNameView, ProductListCategoryView, \
     product_info_list
 from .views.tokenView import CustomTokenObtainPairView, CookieTokenRefreshView, CookieLogoutView
@@ -39,6 +40,12 @@ urlpatterns = [
     path('cart/update/<int:pk>/', UpdateCartItemView.as_view(), name='cart-update'),
     path('cart/merge/', MergeCartView.as_view(), name='cart-merge'),
     path('cart/clear/', ClearCartView.as_view(), name='cart-clear'),
+
+
+    # Orders and PayPal
+    path('order/create/', OrderCreateView.as_view(), name='order-create'),
+    path('paypal-execute/', PaypalExecuteView.as_view(), name='paypal-execute'),
+    path('paypal-cancel/', PayPalCancelView.as_view(), name='paypal-cancel'),
 
     # JWT
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
