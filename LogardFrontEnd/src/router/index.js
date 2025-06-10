@@ -1,13 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Landing from '../views/Landing.vue'
 import Auth from '../views/Auth.vue'
-import Orders from '../views/Orders.vue'
+import Orders from '../views/Orders/Orders.vue'
 import Verify from "@/views/Verify.vue";
 import Categories from "@/views/Categories/Categories.vue";
 import DetailProducts from "@/views/Products/DetailProducts.vue";
 import {isAuthenticated} from "@/composables/useAuth.js";
 import Cart from "@/views/Cart/Cart.vue";
 import AnonymousCart from "@/views/Cart/AnonymousCart.vue";
+import NewOrder from "@/views/Orders/NewOrder.vue";
+import PayPalCallBack from "@/views/PayPalCallBack.vue";
 
 const routes = [
     // Landing Page
@@ -24,8 +26,12 @@ const routes = [
     // Categories Routes (SHOW-CATEGORIES)
     { path: '/categories', name: 'categories-list', component: Categories},
 
-    // Orders Routes (MY-ORDERS)
+    // Orders Routes (MY-ORDERS, NEW-ORDER)
     { path: '/my-orders',name: 'orders', meta: {requiresAuth: true},component: Orders },
+    { path: '/new-order', name: 'new-order', meta: {requiresAuth: true}, component: NewOrder},
+
+    // PayPal Routes (CALL-BACK)
+    { path: '/paypal-callback', name:'paypal-callback', component: PayPalCallBack},
 
     // Cart Routes (SHOW_CART, ANONYMOUS_CART)
     { path: '/cart', name:'cart', component: Cart},

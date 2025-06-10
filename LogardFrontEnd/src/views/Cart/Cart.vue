@@ -126,9 +126,12 @@ function onCartUpdated() {
           <span class="summary-label">TOTAL:</span>
           <span class="summary-total">€{{ cart.total }}</span>
         </div>
-        <button class="checkout-btn">
-          Proceder al Pago
-        </button>
+
+        <router-link to="/new-order">
+          <button class="checkout-btn">
+            Proceder al Pago
+          </button>
+        </router-link>
       </div>
     </div>
   </div>
