@@ -61,3 +61,29 @@ class UpdateCartItemView(APIView):
 
         cart_item.delete()
         return Response({'message': 'Item eliminado del carrito'}, status=status.HTTP_204_NO_CONTENT)
+
+
+class ClearCartView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request):
+        """
+        Elimina todos los items del carrito del usuario autenticado
+        """
+        try:
+            cart = Cart.objects.get(user=request.user)
+            # Eliminar todos los items del carrito
+            deleted_count = cart.items.all().delete()[0]
+
+            return Response({
+                'message': f'Carrito vaciado exitosamente. Se eliminaron {deleted_count} items.',
+                'items_deleted': deleted_count
+            }, status=status.HTTP_200_OK)
+
+        except Cart.DoesNotExist:
+            # Si no existe carrito, crear uno vacío
+            Cart.objects.create(user=request.user)
+            return Response({
+                'message': 'No había items en el carrito',
+                'items_deleted': 0
+            }, status=status.HTTP_200_OK)

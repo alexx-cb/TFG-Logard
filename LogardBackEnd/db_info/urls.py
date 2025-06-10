@@ -6,7 +6,7 @@ from LogardBackEnd import settings
 from .views.MergeCartView import MergeCartView
 
 from .views.apiView import APIRootView
-from .views.cartView import CartDetailView, UpdateCartItemView
+from .views.cartView import CartDetailView, UpdateCartItemView, ClearCartView
 from .views.categoryView import CategoryListCreateView, CategoryDetailsView, CategoryByNameView
 from .views.productView import ProductListCreateView, ProductDetailsView, ProductByNameView, ProductListCategoryView, \
     product_info_list
@@ -38,7 +38,7 @@ urlpatterns = [
     path('cart/', CartDetailView.as_view(), name='cart-details'),
     path('cart/update/<int:pk>/', UpdateCartItemView.as_view(), name='cart-update'),
     path('cart/merge/', MergeCartView.as_view(), name='cart-merge'),
-
+    path('cart/clear/', ClearCartView.as_view(), name='cart-clear'),
 
     # JWT
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -7,6 +7,7 @@ class CartItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name', read_only=True)
     product_price = serializers.DecimalField(source='product.price', max_digits=10, decimal_places=2, read_only=True)
     product_discount = serializers.DecimalField(source='product.discount', max_digits=5, decimal_places=2, read_only=True)
+    image = serializers.ImageField(source='product.image', read_only=True)
     price_with_discount = serializers.SerializerMethodField()
     total_price = serializers.SerializerMethodField()
     total_price_with_discount = serializers.SerializerMethodField()
@@ -15,7 +16,7 @@ class CartItemSerializer(serializers.ModelSerializer):
         model = CartItem
         fields = [
             'id', 'product', 'product_name', 'size', 'units', 'product_price', 'product_discount',
-            'price_with_discount', 'total_price', 'total_price_with_discount'
+            'price_with_discount', 'total_price', 'total_price_with_discount', 'image'
         ]
 
     def get_price_with_discount(self, obj):

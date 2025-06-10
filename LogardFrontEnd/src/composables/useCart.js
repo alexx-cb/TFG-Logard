@@ -2,8 +2,6 @@ import api from "@/composables/axios/interceptor.js";
 
 const LOCAL_CART_KEY = "local_cart";
 
-const newUnits = 0
-
 export function getLocalCart() {
     const json = localStorage.getItem(LOCAL_CART_KEY);
     return json ? JSON.parse(json) : [];
@@ -53,13 +51,20 @@ export async function getLocalCartWithDetails() {
     const productMap = {};
     products.forEach((p) => (productMap[p.id] = p));
 
-    return localCart.map((item) => ({...item, product_info: productMap[item.product],}));
+    return localCart.map((item) => ({
+        ...item,
+        product_info: productMap[item.product],
+    }));
 }
 
 // ADD PRODUCT INTO DE DB
 export async function addToUserCart(productId, size, units = 1) {
     try {
-        const response = await api.post("cart/", { product: productId, size, units });
+        const response = await api.post("cart/", {
+            product: productId,
+            size,
+            units
+        });
         return { success: true, data: response.data };
     } catch (err) {
         console.error("Error adding to user cart:", err);
@@ -78,11 +83,36 @@ export async function getUserCart() {
     }
 }
 
-export async function AddOneUnit(id){
-    try{
-        const response = await api.patch(`cart/update/${id}`, {newUnits})
-    }catch(err){
-        console.log("Error añadiendo 1 unidad: "+err)
+// UPDATE CART ITEM UNITS
+export async function updateCartItem(itemId, units) {
+    try {
+        const response = await api.patch(`cart/update/${itemId}/`, { units });
+        return { success: true, data: response.data };
+    } catch (err) {
+        console.error("Error updating cache item:", err);
+        return { success: false, error: err?.response?.data || err?.message };
+    }
+}
+
+// REMOVE SINGLE CART ITEM
+export async function removeCartItem(itemId) {
+    try {
+        const response = await api.delete(`cart/update/${itemId}/`);
+        return { success: true, data: response.data };
+    } catch (err) {
+        console.error("Error removing cart item:", err);
+        return { success: false, error: err?.response?.data || err?.message };
+    }
+}
+
+// CLEAR ALL CART ITEMS
+export async function clearUserCart() {
+    try {
+        const response = await api.delete("cart/clear/");
+        return { success: true, data: response.data };
+    } catch (err) {
+        console.error("Error clearing cart:", err);
+        return { success: false, error: err?.response?.data || err?.message };
     }
 }
 
