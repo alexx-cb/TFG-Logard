@@ -33,6 +33,8 @@ const routes = [
     // PayPal Routes (CALL-BACK)
     { path: '/paypal-callback', name:'paypal-callback', component: PayPalCallBack},
 
+    { path: '/paypal-success', name:'paypal-success', component: PayPalCallBack},
+
     // Cart Routes (SHOW_CART, ANONYMOUS_CART)
     { path: '/cart', name:'cart', component: Cart},
     { path: '/anonymous-cart', name:'anonymous-cart', component: AnonymousCart},
