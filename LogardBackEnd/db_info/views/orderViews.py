@@ -65,7 +65,7 @@ class PaypalExecuteView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        payment_id = request.GET.get('payment_id')
+        payment_id = request.GET.get('paymentId')
         payer_id = request.GET.get('PayerID')
         order_id = request.GET.get('order_id')
 

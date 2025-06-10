@@ -37,7 +37,7 @@ export async function  executePayPalPayment({paymentId, payerId, orderId}){
     }
 }
 
-export async function canelPayPalPayment(orderId){
+export async function cancelPayPalPayment(orderId){
     try{
         const url = `paypal-cancel/?order_id=${orderId}`
         const response = await api.get(url)
