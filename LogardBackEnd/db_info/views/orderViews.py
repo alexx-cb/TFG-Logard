@@ -1,4 +1,5 @@
 from datetime import timezone, datetime
+from decimal import Decimal
 
 from django.db import transaction
 from django.urls import reverse
@@ -9,7 +10,7 @@ from rest_framework.views import APIView
 from db_info.Services.EmailService import EmailService
 from db_info.models import Order, RowsOrder, Cart, Product
 from db_info.payments.paypalService import PayPalService
-from db_info.serializers.OrderSerializer import CreateOrderSerializer
+from db_info.serializers.OrderSerializer import CreateOrderSerializer, OrderSerializer
 
 
 class OrderCreateView(APIView):
@@ -153,3 +154,14 @@ class PayPalCancelView(APIView):
         order.status = 'Cancelled'
         order.save()
         return Response({"status": "cancelled" , "order_id": order_id})
+
+
+
+class UserOrdersView(APIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        orders = Order.objects.filter(user=request.user)
+        serializer = self.serializer_class(orders, many=True)
+        return Response(serializer.data)

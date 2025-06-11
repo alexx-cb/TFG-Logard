@@ -37,19 +37,11 @@ export async function  executePayPalPayment({paymentId, payerId, orderId}){
     }
 }
 
-export async function cancelPayPalPayment(orderId){
+export async function getUserOrders(){
     try{
-        const url = `paypal-cancel/?order_id=${orderId}`
-        const response = await api.get(url)
-
-        orderStatus.value = "cancelled"
-        lastOrder.value = response.data
-
+        const response = await api.get('my-orders/')
         return {success:true, data: response.data}
-
     }catch(err){
-        orderStatus.value = "error"
-        return {success:false, error: err.response?.data || err?.message}
+        return { success: false, error: err?.response?.value || err?.message };
     }
 }
-

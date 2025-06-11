@@ -1,10 +1,4 @@
 <script setup>
-//PRINCIPAL DE PRODUCTOS --> LISTAR TODOS SEGUN EL ID DE CATEGORIA QUE SE LE PASE
-
-// SE LLAMA A:
-// DETAIL -- > DATOS DEL PRODUCTO Y EDITAR LOS DATOS DE ESE PRODUCTO
-// CREATEPRODUCT -- > CREAR UN NUEVO PRODUCTO (FORMULARIO)
-
 import { user } from '@/composables/useAuth';
 import {computed, defineAsyncComponent, onMounted, ref} from "vue";
 import { getProductsCategory} from "@/composables/useProducts.js";

@@ -8,7 +8,7 @@ from .views.MergeCartView import MergeCartView
 from .views.apiView import APIRootView
 from .views.cartView import CartDetailView, UpdateCartItemView, ClearCartView
 from .views.categoryView import CategoryListCreateView, CategoryDetailsView, CategoryByNameView
-from .views.orderViews import OrderCreateView, PaypalExecuteView, PayPalCancelView
+from .views.orderViews import OrderCreateView, PaypalExecuteView, PayPalCancelView, UserOrdersView
 from .views.productView import ProductListCreateView, ProductDetailsView, ProductByNameView, ProductListCategoryView, \
     product_info_list
 from .views.tokenView import CustomTokenObtainPairView, CookieTokenRefreshView, CookieLogoutView
@@ -44,6 +44,7 @@ urlpatterns = [
 
     # Orders and PayPal
     path('order/create/', OrderCreateView.as_view(), name='order-create'),
+    path('my-orders/', UserOrdersView.as_view(), name='user-orders'),
     path('paypal-execute/', PaypalExecuteView.as_view(), name='paypal-execute'),
     path('paypal-cancel/', PayPalCancelView.as_view(), name='paypal-cancel'),
 
