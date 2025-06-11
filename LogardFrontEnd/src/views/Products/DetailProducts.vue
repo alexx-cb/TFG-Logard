@@ -6,7 +6,7 @@ import {user} from "@/composables/useAuth.js";
 import AddCart from "@/views/Cart/AddCart.vue";
 
 const route = useRoute();
-const router = useRouter()
+const router = useRouter();
 const productId = Number(route.params.id);
 
 const product = ref({});
@@ -26,12 +26,11 @@ const isEditing = {
   image: ref(false)
 };
 
-
 onMounted(() => {
   getDetails();
 });
 
-const isAdmin = computed(()=>user.value?.is_staff)
+const isAdmin = computed(() => user.value?.is_staff);
 
 function imageContainer(event) {
   image.value = event.target.files[0];
@@ -40,8 +39,6 @@ function imageContainer(event) {
 function switchDisabled(refVar) {
   if (refVar && typeof refVar.value !== 'undefined') {
     refVar.value = !refVar.value;
-  } else {
-    console.warn("switchDisabled recibió un valor inválido:", refVar);
   }
 }
 
@@ -90,14 +87,11 @@ async function updateProduct() {
   try {
     const response = await patchProduct(productId, formData);
     if (response.success) {
-      console.log("Producto actualizado con éxito");
       await getDetails();
 
-      isEditing.name.value = false;
-      isEditing.description.value = false;
-      isEditing.price.value = false;
-      isEditing.discount.value = false;
-      isEditing.image.value = false;
+      Object.keys(isEditing).forEach(key => {
+        isEditing[key].value = false;
+      });
       image.value = null;
     }
   } catch (err) {
@@ -105,94 +99,176 @@ async function updateProduct() {
   }
 }
 
-async function deleteProductView(){
-  try{
-    const response = await deleteProduct(productId)
-
-    if (response.success){
-      alert("Producto eliminado correctamente")
-      await router.push('/')
+async function deleteProductView() {
+  try {
+    const response = await deleteProduct(productId);
+    if (response.success) {
+      alert("Producto eliminado correctamente");
+      await router.push('/');
     }
-  }catch(err){
-    console.log("Error en la vista: " +err)
+  } catch (err) {
+    console.log("Error en la vista: " + err);
   }
 }
 </script>
 
+
 <template>
-  <h1>PRODUCT DETAIL</h1>
-  <p>{{product}}</p>
+  <div class="product-detail">
+    <div class="column left">
+      <h1>{{ name }}</h1>
+      <form @submit.prevent="updateProduct">
+        <button type="button" class="edit-button" @click="switchDisabled(isEditing.name)">Edit Name</button>
+        <div v-if="isEditing.name.value" class="edit-block">
+          <input v-model="name" type="text" />
+          <button type="submit" class="save-button">Guardar</button>
+          <button type="button" class="cancel-button" @click="switchDisabled(isEditing.name)">Cancelar</button>
+        </div>
+      </form>
 
-  <div v-if="isAdmin">
-    <p>Pulsa <span @click="deleteProductView">Aqui</span> para eliminar el producto</p>
+      <h2>Description</h2>
+      <form @submit.prevent="updateProduct">
+        <p>{{ description }}</p>
+        <button type="button" class="edit-button" @click="switchDisabled(isEditing.description)">Edit Description</button>
+        <div v-if="isEditing.description.value" class="edit-block">
+          <input v-model="description" type="text" />
+          <button type="submit" class="save-button">Guardar</button>
+          <button type="button" class="cancel-button" @click="switchDisabled(isEditing.description)">Cancelar</button>
+        </div>
+      </form>
+    </div>
 
+    <div class="column center">
+      <img :src="`http://localhost:8000${product.image}`" alt="product" v-if="product.image" />
+      <div class="cart-container">
+        <AddCart :product-id="productId" />
+      </div>
+    </div>
+
+    <div class="column right">
+      <form @submit.prevent="updateProduct">
+        <div class="price">
+          <span>{{ price }}€</span>
+          <button type="button" class="edit-button" @click="switchDisabled(isEditing.price)">Edit Price</button>
+        </div>
+        <div v-if="isEditing.price.value" class="edit-block">
+          <input v-model="price" type="number" />
+          <button type="submit" class="save-button">Guardar</button>
+          <button type="button" class="cancel-button" @click="switchDisabled(isEditing.price)">Cancelar</button>
+        </div>
+      </form>
+
+      <div class="sizes">
+        <p>S / M / L</p>
+      </div>
+
+      <form @submit.prevent="updateProduct" class="image-form">
+        <button type="button" class="edit-button" @click="switchDisabled(isEditing.image)">Edit Image</button>
+        <div v-if="isEditing.image.value" class="edit-block">
+          <input
+            type="file"
+            accept="image/*"
+            @change="imageContainer"
+          />
+          <button type="submit" class="save-button">Guardar</button>
+          <button type="button" class="cancel-button" @click="switchDisabled(isEditing.image)">Cancelar</button>
+        </div>
+      </form>
+    </div>
   </div>
-
-  <!-- NAME -->
-  <form @submit.prevent="updateProduct">
-    <label for="name">Name:</label>
-    <input type="text" v-model="name" :disabled="!isEditing.name.value" />
-
-    <div v-if="isAdmin">
-      <button type="button" @click="switchDisabled(isEditing.name)" v-if="!isEditing.name.value">Editar</button>
-      <button type="button" @click="switchDisabled(isEditing.name)" v-else>Cancel</button>
-      <input type="submit" value="Update Name" v-if="isEditing.name.value" />
-    </div>
-
-  </form>
-
-  <!-- DESCRIPTION -->
-  <form @submit.prevent="updateProduct">
-    <label for="description">Description:</label>
-    <input type="text" v-model="description" :disabled="!isEditing.description.value" />
-
-    <div v-if="isAdmin">
-      <button type="button" @click="switchDisabled(isEditing.description)" v-if="!isEditing.description.value">Editar</button>
-      <button type="button" @click="switchDisabled(isEditing.description)" v-else>Cancel</button>
-      <input type="submit" value="Update Description" v-if="isEditing.description.value" />
-    </div>
-  </form>
-
-  <!-- PRICE -->
-  <form @submit.prevent="updateProduct">
-    <label for="price">Price:</label>
-    <input type="number" v-model="price" :disabled="!isEditing.price.value" />
-
-    <div v-if="isAdmin">
-      <button type="button" @click="switchDisabled(isEditing.price)" v-if="!isEditing.price.value">Editar</button>
-      <button type="button" @click="switchDisabled(isEditing.price)" v-else >Cancel</button>
-      <input type="submit" value="Update Price" v-if="isEditing.price.value" />
-    </div>
-  </form>
-
-  <!-- DISCOUNT -->
-  <form @submit.prevent="updateProduct">
-    <label for="discount">Discount:</label>
-    <input type="number" v-model="discount" :disabled="!isEditing.discount.value" />
-
-    <div v-if="isAdmin">
-      <button type="button" @click="switchDisabled(isEditing.discount)" v-if="!isEditing.discount.value">Editar</button>
-      <button type="button" @click="switchDisabled(isEditing.discount)" v-else>Cancel</button>
-      <input type="submit" value="Update Discount" v-if="isEditing.discount.value" />
-    </div>
-  </form>
-
-  <!-- IMAGE -->
-  <form @submit.prevent="updateProduct">
-    <label>Imagen:</label><br />
-    <img :src="`http://localhost:8000${product.image}`" alt="Imagen del producto" style="max-width: 200px;" v-if="product.image" /><br />
-
-
-    <div v-if="isAdmin">
-      <input type="file" accept="image/*" @change="imageContainer" :disabled="!isEditing.image.value" />
-
-      <button type="button" @click="switchDisabled(isEditing.image)" v-if="!isEditing.image.value">Editar Imagen</button>
-      <button type="button" @click="switchDisabled(isEditing.image)" v-else>Cancel</button>
-      <input type="submit" value="Update Image" v-if="isEditing.image.value" />
-    </div>
-  </form>
-
-  <AddCart
-    :product-id="productId"
-  />
 </template>
+
+<style scoped>
+.product-detail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #111;
+  color: #ffd700;
+  padding: 2rem;
+  font-family: "Arial", sans-serif;
+  min-height: 100vh;
+}
+
+.column {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.column.left,
+.column.right {
+  gap: 2rem;
+}
+
+.column.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.column.center img {
+  max-width: 100%;
+  max-height: 600px;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+}
+
+.edit-button,
+.save-button,
+.cancel-button {
+  background-color: #888;
+  color: #ffd700;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.edit-button:hover,
+.save-button:hover,
+.cancel-button:hover {
+  background-color: #aaa;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"] {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  width: 100%;
+  background-color: #222;
+  color: #ffd700;
+  border: none;
+  border-radius: 4px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.5rem;
+}
+
+.sizes p {
+  font-size: 1.2rem;
+}
+
+.image-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-block {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+</style>
