@@ -30,7 +30,6 @@ async function getAllCategories(){
   }else{
     console.log("no ha llegado nada")
   }
-
 }
 
 async function createNewCategory(){
@@ -44,48 +43,209 @@ async function createNewCategory(){
   }else{
     console.log("Error al crear la categoria")
   }
-
 }
-
 </script>
 
 <template>
-  <h1>Categorias</h1>
+  <div class="categories-container">
+    <!-- Admin section for creating new category -->
+    <div v-if="isUserLoaded && isAdmin" class="create-category-section">
+      <div class="create-category-form">
+        <h3>New Category</h3>
+        <form @submit.prevent="createNewCategory" class="form-container">
+          <div class="input-group">
+            <input
+              type="text"
+              id="name"
+              v-model="categoryName"
+              placeholder="Category name"
+              class="form-input"
+            />
+            <button type="submit" class="submit-btn">
+              <span>→</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
 
-  <!-- Mostrar siempre las categorías -->
-  <div v-for="category in categories" :key="category.id">
-    <p>NOMBRE CATEGORIA:  {{ category.name }}</p>
-    <Products :category-id="category.id" />
+    <!-- Categories sections -->
+    <div v-for="category in categories" :key="category.id" class="category-section">
+      <div class="category-header">
+        <h2 class="category-title">{{ category.name }}</h2>
+      </div>
 
-    <div v-if="isAdmin">
-      <UpdateDeleteCategories
+      <Products :category-id="category.id" />
+
+      <div v-if="isAdmin" class="admin-controls">
+        <UpdateDeleteCategories
           :category-id="category.id"
           @category-updated="getAllCategories"
-      />
+        />
+      </div>
     </div>
-  </div>
-
-  <!-- Mostrar contenido según rol -->
-  <div v-if="isUserLoaded">
-    <div v-if="isAdmin">
-      <p>Eres admin</p>
-      <h2>Crear nueva Categoria</h2>
-      <form @submit.prevent="createNewCategory">
-        <label for="name">Name: </label>
-        <input type="text" id="name" v-model="categoryName" />
-        <button type="submit">Create</button>
-      </form>
-    </div>
-    <div v-else>
-      <p>No eres admin</p>
-    </div>
-  </div>
-  <div v-else>
-    <p>Cargando usuario...</p>
   </div>
 </template>
 
-
 <style scoped>
+.categories-container {
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
 
+.filters-nav {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  padding: 20px 0;
+}
+
+.filter-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 10px 0;
+  transition: color 0.3s ease;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  color: #FFD700;
+  border-bottom: 2px solid #FFD700;
+}
+
+.category-section {
+  margin-bottom: 60px;
+}
+
+.category-header {
+  margin-bottom: 30px;
+}
+
+.category-title {
+  color: #FFD700;
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.admin-controls {
+  margin-top: 20px;
+}
+
+.create-category-section {
+  margin-bottom: 50px;
+  padding: 30px 0;
+  border-bottom: 1px solid #333;
+}
+
+.create-category-form {
+  background: rgba(25, 25, 25, 0.9);
+  border: 1px solid #444;
+  border-radius: 15px;
+  padding: 30px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.create-category-form h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background: #333;
+  border-radius: 25px;
+  padding: 8px;
+  gap: 10px;
+  min-width: 400px;
+}
+
+.form-input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 12px 20px;
+  font-size: 16px;
+  outline: none;
+  flex: 1;
+}
+
+.form-input::placeholder {
+  color: #888;
+}
+
+.submit-btn {
+  background: #FFD700;
+  border: none;
+  color: #000;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #FFA500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .categories-container {
+    padding: 10px;
+  }
+
+  .create-category-section {
+    margin-bottom: 30px;
+    padding: 20px 0;
+  }
+
+  .create-category-form {
+    padding: 20px;
+  }
+
+  .input-group {
+    min-width: 300px;
+  }
+
+  .category-title {
+    font-size: 24px;
+  }
+
+  .filters-nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-group {
+    min-width: 250px;
+  }
+
+  .create-category-form h3 {
+    font-size: 20px;
+  }
+}
 </style>
