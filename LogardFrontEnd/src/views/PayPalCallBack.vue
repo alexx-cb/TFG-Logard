@@ -1,10 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import {executePayPalPayment} from "@/composables/useOrders.js";
 
 const route = useRoute();
-const router = useRouter();
 
 const status = ref(null);
 const errorMsg = ref("");

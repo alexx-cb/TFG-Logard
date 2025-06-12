@@ -59,164 +59,80 @@ async function removeItem() {
 </script>
 
 <template>
-  <div class="update-cart-container">
-    <div class="quantity-controls">
-      <button
-        @click="removeOneUnit"
-        :disabled="item.units <= 1 || isLoading"
-        class="quantity-btn decrease"
-        :class="{ disabled: item.units <= 1 }"
-      >
-        ➖
-      </button>
-
-      <span class="quantity-display">{{ item.units }}</span>
-
-      <button
-        @click="addOneUnit"
-        :disabled="isLoading"
-        class="quantity-btn increase"
-      >
-        ➕
-      </button>
-    </div>
-
-    <button
-      @click="removeItem"
-      :disabled="isLoading"
-      class="remove-btn"
-      title="Eliminar producto del carrito"
-    >
-      <span v-if="isLoading" class="loading-spinner">⏳</span>
-      <span v-else>🗑️</span>
+  <div class="item-actions">
+    <button @click="removeOneUnit" :disabled="item.units <= 1 || isLoading" class="quantity-btn">-</button>
+    <span class="quantity-display">{{ item.units }}</span>
+    <button @click="addOneUnit" :disabled="isLoading" class="quantity-btn">+</button>
+    <button @click="removeItem" :disabled="isLoading" class="remove">
+      <span v-if="isLoading">⏳</span>
+      <span v-else>Remove</span>
     </button>
   </div>
 </template>
 
 <style scoped>
-.update-cart-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: center;
-}
-
-.quantity-controls {
+.item-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: #f8f9fa;
-  padding: 8px 15px;
-  border-radius: 25px;
-  border: 2px solid #e9ecef;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  gap: 10px;
+  margin-top: 8px;
 }
 
 .quantity-btn {
-  width: 35px;
-  height: 35px;
+  background: none;
   border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1rem;
+  color: #ffe600;
+  font-size: 1.25rem;
   font-weight: bold;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.quantity-btn.decrease {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  color: white;
-}
-
-.quantity-btn.decrease:hover:not(.disabled) {
-  background: linear-gradient(135deg, #c0392b, #a93226);
-  transform: scale(1.1);
-}
-
-.quantity-btn.increase {
-  background: linear-gradient(135deg, #27ae60, #2ecc71);
-  color: white;
-}
-
-.quantity-btn.increase:hover:not(:disabled) {
-  background: linear-gradient(135deg, #2ecc71, #58d68d);
-  transform: scale(1.1);
-}
-
-.quantity-btn.disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-  opacity: 0.6;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: background 0.15s;
+  text-align: center;
 }
 
 .quantity-btn:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
-  opacity: 0.6;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background: #ffe600;
+  color: #000;
 }
 
 .quantity-display {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  color: #2c3e50;
+  color: #ffe600;
   min-width: 30px;
   text-align: center;
-  padding: 5px 10px;
-  background: white;
-  border-radius: 15px;
-  border: 1px solid #ddd;
 }
 
-.remove-btn {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  color: white;
+.remove {
+  width: auto;
+  min-width: 80px;
+  height: 32px;
+  border-radius: 6px;
+  padding: 0 18px;
+  font-size: 1rem;
+  background: none;
+  color: #ffe600;
   border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  font-weight: bold;
   cursor: pointer;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  transition: background 0.15s, color 0.15s;
 }
 
-.remove-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #c0392b, #a93226);
-  transform: scale(1.1) rotate(5deg);
+.remove:hover:not(:disabled) {
+  background: #ffe600;
+  color: #000;
 }
 
-.remove-btn:disabled {
+.remove:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
-  opacity: 0.6;
 }
 
-.loading-spinner {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .update-cart-container {
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .quantity-controls {
-    flex: 1;
-    justify-content: center;
-    margin-right: 10px;
-  }
-}
 </style>

@@ -15,6 +15,21 @@ export function clearLocalCart() {
     localStorage.removeItem(LOCAL_CART_KEY);
 }
 
+export function removeFromLocalCart(productId, size) {
+  let cart = JSON.parse(localStorage.getItem("local_cart")) || [];
+  cart = cart.filter(item => !(item.product === productId && item.size === size));
+  localStorage.setItem("local_cart", JSON.stringify(cart));
+}
+
+export function updateLocalCart(productId, size, units) {
+  let cart = JSON.parse(localStorage.getItem("local_cart")) || [];
+  const index = cart.findIndex(item => item.product === productId && item.size === size);
+  if (index !== -1) {
+    cart[index].units = units;
+    localStorage.setItem("local_cart", JSON.stringify(cart));
+  }
+}
+
 // ADD TO LOCALSTORAGE THE PRODUCT
 export function addToLocalCart(productId, size, units = 1) {
     let cart = getLocalCart();
