@@ -1,25 +1,20 @@
 <script setup>
-import { user } from "@/composables/useAuth.js";
 </script>
 
 <template>
   <div class="landing-page">
-    <header>
-      <div class="hero-masks">
-        <img src="/img/alonso.jpg" alt="Máscaras teatrales">
-      </div>
+    <header class="hero-section">
+      <img src="/img/Hero.png" alt="Imagen principal">
     </header>
 
     <main class="main-content">
-      <section class="lifestyle-gallery">
-        <div class="lifestyle-item">
-          <img src="/img/alonso.jpg" alt="Hombre de espaldas con camiseta">
+      <section class="gallery-section">
+        <div class="gallery-row">
+          <img src="/img/1-dual.png" alt="Imagen 1" />
+          <img src="/img/2-dual.png" alt="Imagen 2" />
         </div>
-        <div class="lifestyle-item">
-          <img src="/img/alonso.jpg" alt="Hombre sujetando camiseta negra">
-        </div>
-        <div class="lifestyle-item">
-          <img src="/img/alonso.jpg" alt="Hombre con pasamontañas">
+        <div class="hero-section bottom-hero">
+          <img src="/img/last.png" alt="Imagen final" />
         </div>
       </section>
     </main>
@@ -31,81 +26,44 @@ import { user } from "@/composables/useAuth.js";
   background-color: black;
   color: #ffd700;
   font-family: sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-header {
-  padding: 20px;
-  text-align: center;
+.hero-section {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.nav-links a {
-  color: #ffd700;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.logo img {
-  max-width: 150px;
-}
-
-.hero-masks {
-  margin-bottom: 50px;
-}
-
-.hero-masks img {
+.hero-section img {
   width: 100%;
-  max-width: 600px; /* Ajusta el tamaño de las máscaras */
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .main-content {
-  padding: 20px;
+  padding: 0;
 }
 
-.lifestyle-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  margin-bottom: 50px;
+.gallery-section {
+  margin: 0;
 }
 
-.lifestyle-item img {
+.gallery-row {
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
+}
+
+.gallery-row img {
+  width: 50%;
   height: auto;
-  display: block; /* Para eliminar el espacio extra debajo de la imagen */
+  display: block;
 }
 
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.product-card {
-  background-color: #333; /* Un gris oscuro para las tarjetas de producto */
-  padding: 10px;
-  text-align: center;
-}
-
-.product-card img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-}
-
-.product-info p {
-  margin: 5px 0;
-  font-size: 0.9em;
-}
-
-/* Media Queries para responsividad, si es necesario */
-@media (max-width: 768px) {
-  .nav {
-    flex-direction: column;
-    gap: 15px;
-  }
-  .nav-links {
-    margin-top: 10px;
-  }
+.bottom-hero {
+  margin-top: 0;
 }
 </style>

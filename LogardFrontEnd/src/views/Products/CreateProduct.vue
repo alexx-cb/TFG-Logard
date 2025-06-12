@@ -35,13 +35,9 @@ async function createProduct() {
     if (response.success) {
       emit('update-product');
       emit('close-form');
-      console.log("producto creado con exito");
-    } else {
-      console.log("Error en la respuesta");
-      console.log(response);
+
     }
   } catch (err) {
-    console.log("Error al crear el producto: " + err);
   }
 }
 

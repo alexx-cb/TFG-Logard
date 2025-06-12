@@ -47,9 +47,7 @@ class UserSerializer(serializers.ModelSerializer):
         try:
             email_api.send_transac_email(email)
         except Exception as e:
-            print("Error al enviar el email:", str(e))
-            # Aquí podrías registrar el error o lanzar una excepción personalizada
-
+            pass
         return user
 
     def update(self, instance, validated_data):

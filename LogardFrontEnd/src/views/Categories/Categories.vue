@@ -23,25 +23,18 @@ const isAdmin = computed(() => user.value?.is_staff === true)
 
 async function getAllCategories(){
   const response = await getCategories()
-  console.log(response)
 
-  if(response.success){
+  if(response.success) {
     categories.value = response.data.data
-  }else{
-    console.log("no ha llegado nada")
   }
 }
 
 async function createNewCategory(){
   const response = await postCategories(categoryName.value)
-  console.log(response)
 
   if (response.success){
-    console.log("Categoria creada correctamente")
     categoryName.value =''
     await getAllCategories()
-  }else{
-    console.log("Error al crear la categoria")
   }
 }
 </script>

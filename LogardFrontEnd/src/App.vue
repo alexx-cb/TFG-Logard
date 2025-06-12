@@ -51,8 +51,9 @@ onMounted(async () => {
       <RouterLink v-else to="/anonymous-cart" @click="menuOpen = false">Cart</RouterLink>
     </nav>
     <div v-if="menuOpen" class="backdrop" @click="menuOpen = false"></div>
+    <hr class="header-divider" />
   </header>
-  <hr class="header-divider" />
+
   <RouterView />
 
   <Footer></Footer>
@@ -61,16 +62,16 @@ onMounted(async () => {
 <style scoped>
 .header-divider {
   border: none;
-  border-bottom: 1px solid #ffd700;
+  border-bottom: 0.5px solid #ffd700;
   margin: 0;
   width: 100%;
-  box-shadow: 0 1px 8px #111a;
 }
 
 .main-header {
   background-color: black;
-  padding: 1.5rem 2rem;
-  position: relative;
+  padding: 1rem 3rem 0 3rem;
+  position: sticky;
+  top: 0;
   z-index: 100;
 }
 

@@ -49,8 +49,8 @@ async function submitOrder() {
     <h2 class="checkout-title">Resumen del pedido</h2>
     <div v-if="cart.items.length === 0" class="empty-cart">
       <div class="empty-cart-icon">🛒</div>
-      <h3>Tu carrito está vacío</h3>
-      <p>Agrega productos antes de realizar el pedido.</p>
+      <h3>Your Cart is empty!</h3>
+      <p>Add some products before you pay.</p>
     </div>
     <div v-else class="checkout-content">
       <ul class="checkout-items">
@@ -58,7 +58,7 @@ async function submitOrder() {
           <img :src="`http://localhost:8000${item.image}`" alt="" class="checkout-img" />
           <div class="checkout-details">
             <span class="checkout-product">{{ item.product_name }}</span>
-            <span class="checkout-size">Talla: {{ item.size }}</span>
+            <span class="checkout-size">Size: {{ item.size }}</span>
             <span class="checkout-units">{{ item.units }} ud.</span>
           </div>
           <div class="checkout-prices">
@@ -82,14 +82,14 @@ async function submitOrder() {
         <span class="summary-total">{{ total }}€</span>
       </div>
       <form @submit.prevent="submitOrder" class="checkout-form">
-        <input v-model="address" placeholder="Dirección" required />
-        <input v-model="locality" placeholder="Localidad" required />
-        <input v-model="province" placeholder="Provincia" required />
-        <button type="submit" class="checkout-btn">Pagar con PayPal</button>
+        <input v-model="address" placeholder="Address" required />
+        <input v-model="locality" placeholder="Locality" required />
+        <input v-model="province" placeholder="Province" required />
+        <button type="submit" class="checkout-btn">Pay with Paypal</button>
       </form>
       <div v-if="approvalUrl" class="paypal-redirect">
-        <h3>Redirigiendo a PayPal...</h3>
-        <a :href="approvalUrl" target="_blank">Haz clic aquí si no eres redirigido</a>
+        <h3>Redirecting to PayPal...</h3>
+        <a :href="approvalUrl" target="_blank">Click here if you didn't redirect</a>
       </div>
       <div v-if="errorMsg" class="checkout-error">
         {{ errorMsg }}
@@ -199,6 +199,11 @@ async function submitOrder() {
   color: #ffe600;
   font-size: 0.97rem;
   font-weight: bold;
+}
+
+a{
+  color: #ffe600;
+  font-size: 0.97rem;
 }
 
 .checkout-total {

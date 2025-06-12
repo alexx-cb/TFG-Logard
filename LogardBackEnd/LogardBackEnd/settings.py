@@ -41,6 +41,8 @@ EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
 ANYMAIL = {
     "BREVO_API_KEY": config('API_KEY_BREVO'),
 }
+API_KEY_BREVO = config('API_KEY_BREVO')
+
 EMAIL_SENDER = config('EMAIL_SENDER')
 DEFAULT_FROM_EMAIL = config('EMAIL_SENDER')
 

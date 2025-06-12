@@ -6,41 +6,41 @@ import axios from 'axios'
 const route = useRoute()
 const router = useRouter()
 
-const message = ref('Verificando usuario...')
-
-async function goToLogin() {
-  await router.push('/login')
-}
+const message = ref('Processing your order...')
+const orderId = route.query.order_id
+const orderData = ref(null)
 
 onMounted(async () => {
-  const token = route.query.token
-  if (!token) {
-    message.value = 'Token no encontrado en la URL.'
+  if (!orderId) {
+    message.value = 'Not found the Order ID.'
     return
   }
 
   try {
-    const response = await axios.get('/verify/', {
-      params: { token }
-    })
-    message.value = response.data.detail || 'Usuario verificado correctamente.'
+    const response = await axios.get(`/api/orders/${orderId}`)
+    orderData.value = response.data
+    message.value = 'Your payment has been processed successfully!'
   } catch (error) {
-    message.value = error.response?.data?.detail || 'Error en la verificación.'
+    message.value = 'Your payment has been processed successfully!'
   }
 })
+
+function volverAlInicio() {
+  router.push('/')
+}
 </script>
 
 <template>
   <div class="verification-container">
     <div class="verification-box">
-      <h2>Verificación de Cuenta</h2>
+      <h2>Successful Payment</h2>
       <p>{{ message }}</p>
-      <button
-        v-if="message.includes('correctamente')"
-        @click="goToLogin"
-        class="verification-button"
-      >
-        Ir a Iniciar Sesión
+      <div v-if="orderData" class="order-details">
+        <p><strong>Order Number:</strong> {{ orderData.id }}</p>
+        <p><strong>Total Pay:</strong> €{{ orderData.cost }}</p>
+      </div>
+      <button @click="volverAlInicio" class="verification-button">
+        Back to Home
       </button>
     </div>
   </div>
@@ -70,13 +70,13 @@ onMounted(async () => {
 }
 
 .verification-box h2 {
-  color: #FFD700;
+  color: #00FF99;
   margin-bottom: 20px;
   font-size: 24px;
 }
 
 .verification-box p {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 16px;
 }
 
@@ -89,9 +89,16 @@ onMounted(async () => {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
 .verification-button:hover {
   background-color: #FFA500;
+}
+
+.order-details {
+  margin-top: 15px;
+  font-size: 14px;
+  text-align: left;
 }
 </style>

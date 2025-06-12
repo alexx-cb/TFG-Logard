@@ -1,46 +1,34 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
 
 const route = useRoute()
 const router = useRouter()
 
-const message = ref('Verificando usuario...')
+const error = ref('There was an error obtaining your order information.')
 
-async function goToLogin() {
-  await router.push('/login')
-}
+const errorParam = route.query.error
 
-onMounted(async () => {
-  const token = route.query.token
-  if (!token) {
-    message.value = 'Token no encontrado en la URL.'
-    return
-  }
-
-  try {
-    const response = await axios.get('/verify/', {
-      params: { token }
-    })
-    message.value = response.data.detail || 'Usuario verificado correctamente.'
-  } catch (error) {
-    message.value = error.response?.data?.detail || 'Error en la verificación.'
+onMounted(() => {
+  if (errorParam === 'notfound') {
+    error.value = 'Not found the id of your order.'
+  } else if (errorParam === 'server') {
+    error.value = 'Server Error processing your order.'
   }
 })
+
+function volverAlInicio() {
+  router.push('/')
+}
 </script>
 
 <template>
   <div class="verification-container">
     <div class="verification-box">
-      <h2>Verificación de Cuenta</h2>
-      <p>{{ message }}</p>
-      <button
-        v-if="message.includes('correctamente')"
-        @click="goToLogin"
-        class="verification-button"
-      >
-        Ir a Iniciar Sesión
+      <h2>Failed Payment</h2>
+      <p>{{ error }}</p>
+      <button @click="volverAlInicio" class="verification-button">
+        Back to Home
       </button>
     </div>
   </div>
@@ -70,7 +58,7 @@ onMounted(async () => {
 }
 
 .verification-box h2 {
-  color: #FFD700;
+  color: #FF4444;
   margin-bottom: 20px;
   font-size: 24px;
 }

@@ -9,8 +9,10 @@ import {isAuthenticated} from "@/composables/useAuth.js";
 import Cart from "@/views/Cart/Cart.vue";
 import AnonymousCart from "@/views/Cart/AnonymousCart.vue";
 import NewOrder from "@/views/Orders/NewOrder.vue";
-import PayPalCallBack from "@/views/PayPalCallBack.vue";
+import PayPalCallBack from "@/views/PayPal/PayPalCallBack.vue";
 import NotFound from "@/views/NotFound.vue";
+import SuccessfullPayment from "@/views/PayPal/SuccessfullPayment.vue";
+import ErrorPayment from "@/views/PayPal/ErrorPayment.vue";
 
 const routes = [
     // Landing Page
@@ -33,11 +35,12 @@ const routes = [
 
     // PayPal Routes (CALL-BACK)
     { path: '/paypal-callback', name:'paypal-callback', component: PayPalCallBack},
-
     { path: '/paypal-success', name:'paypal-success', component: PayPalCallBack},
+    { path: '/payment-successful', name:'payment-succesful',meta: {requiresAuth: true} , component: SuccessfullPayment},
+    { path: '/payment-error', name:'payment-error', meta:{requiresAuth: true} ,component: ErrorPayment},
 
     // Cart Routes (SHOW_CART, ANONYMOUS_CART)
-    { path: '/cart', name:'cart', component: Cart},
+    { path: '/cart', name:'cart',meta:{requiresAuth: true}, component: Cart},
     { path: '/anonymous-cart', name:'anonymous-cart', component: AnonymousCart},
 
 

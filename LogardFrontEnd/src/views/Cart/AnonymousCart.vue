@@ -27,16 +27,16 @@ function clearCart() {
 <template>
   <div class="cart-container">
     <div class="cart-header">
-      <h2 class="cart-title">🛒 CARRITO ANÓNIMO</h2>
+      <h2 class="cart-title">🛒Cart</h2>
       <button v-if="cartItems.length > 0" @click="clearCart" class="clear-cart-btn">
-        🗑️ Vaciar Carrito
+        🗑️ Clear Cart
       </button>
     </div>
 
     <div v-if="cartItems.length === 0" class="empty-cart">
       <div class="empty-cart-icon">🛒</div>
-      <h3>El carrito está vacío</h3>
-      <p>Agrega productos para comenzar.</p>
+      <h3>Your cart is empty</h3>
+      <p>Add some products to start!</p>
     </div>
 
     <div v-else class="cart-content">
@@ -49,7 +49,7 @@ function clearCart() {
           <div class="item-details">
             <h3 class="product-name">{{ item.product_info.name }}</h3>
             <div class="product-info">
-              <span class="size-badge">Talla: {{ item.size }}</span>
+              <span class="size-badge">Size: {{ item.size }}</span>
               <span
                 class="price"
                 :class="{ 'strikethrough': item.product_info.discount > 0 }"
@@ -68,7 +68,7 @@ function clearCart() {
           <UpdateAnonymousCart :item="item" @cart-updated="handleCartUpdate" />
 
           <div class="item-total">
-            <div class="units">{{ item.units }} unidades</div>
+            <div class="units">{{ item.units }} units</div>
               <div class="total-price">
                 €{{ (item.product_info.price * (1 - item.product_info.discount / 100) * item.units).toFixed(2) }}
               </div>
@@ -78,7 +78,7 @@ function clearCart() {
 
       <div class="cart-summary">
         <div class="summary-row">
-          <span class="summary-label">Total de artículos:</span>
+          <span class="summary-label">Total products:</span>
           <span class="summary-value">{{ cartItems.reduce((sum, item) => sum + item.units, 0) }}</span>
         </div>
         <div class="summary-row total-row">
@@ -98,7 +98,7 @@ function clearCart() {
         </div>
 
         <router-link to="/login">
-          <button class="checkout-btn">Inicia sesión para pagar</button>
+          <button class="checkout-btn">Login to purchase</button>
         </router-link>
       </div>
     </div>

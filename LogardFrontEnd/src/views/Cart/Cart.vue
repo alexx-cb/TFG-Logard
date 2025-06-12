@@ -19,7 +19,6 @@ async function getCart() {
       cart.value = response.data;
     }
   } catch (err) {
-    console.log("Error en la vista del carrito: " + err);
   } finally {
     isLoading.value = false;
   }
@@ -33,8 +32,6 @@ async function clearCompleteCart() {
         await getCart();
       }
     } catch (err) {
-      console.error("Error vaciando el carrito:", err);
-      alert("Error al vaciar el carrito. Inténtalo de nuevo.");
     }
   }
 }
@@ -47,24 +44,24 @@ function onCartUpdated() {
 <template>
   <div class="cart-container">
     <div class="cart-header">
-      <h2 class="cart-title">🛒 TU CARRITO DE COMPRAS</h2>
+      <h2 class="cart-title">🛒Cart</h2>
       <button
         v-if="cart.items && cart.items.length > 0"
         @click="clearCompleteCart"
         class="clear-cart-btn"
       >
-        🗑️ Vaciar Carrito
+        🗑️ Clear Cart
       </button>
     </div>
 
     <div v-if="isLoading" class="loading">
-      <p>Cargando carrito...</p>
+      <p>loading order...</p>
     </div>
 
     <div v-else-if="!cart.items || cart.items.length === 0" class="empty-cart">
       <div class="empty-cart-icon">🛒</div>
-      <h3>Tu carrito está vacío</h3>
-      <p>¡Agrega algunos productos para comenzar!</p>
+      <h3>Your cart is empty</h3>
+      <p>Add some products to start!</p>
     </div>
 
     <div v-else class="cart-content">
@@ -129,7 +126,7 @@ function onCartUpdated() {
 
         <router-link to="/new-order">
           <button class="checkout-btn">
-            Proceder al Pago
+            Purchase
           </button>
         </router-link>
       </div>

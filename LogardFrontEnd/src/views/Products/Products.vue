@@ -22,11 +22,8 @@ async function getProductsCategoryView(){
     const response = await getProductsCategory(props.categoryId)
     if (response.success){
       products.value = response.data.data
-    }else{
-      console.log("Error en la vista: "+ response)
     }
   }catch (err){
-    console.log("Error en el get de productos: " + err)
    }
 }
 

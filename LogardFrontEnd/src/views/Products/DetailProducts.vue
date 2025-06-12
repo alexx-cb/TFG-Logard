@@ -67,7 +67,6 @@ async function getDetails() {
       discount.value = data.discount;
     }
   } catch (err) {
-    console.log("Error en los detalles del producto: " + err);
   }
 }
 
@@ -91,7 +90,6 @@ async function updateProduct() {
   }
 
   if ([...formData.keys()].length === 0) {
-    console.log("No hay cambios para actualizar.");
     return;
   }
 
@@ -106,7 +104,6 @@ async function updateProduct() {
       image.value = null;
     }
   } catch (err) {
-    console.log("Error al actualizar el producto", err);
   }
 }
 
@@ -115,11 +112,9 @@ async function deleteProductView() {
     try {
       const response = await deleteProduct(productId);
       if (response.success) {
-        alert("Producto eliminado correctamente");
         await router.push('/');
       }
     } catch (err) {
-      console.log("Error en la vista: " + err);
     }
   }
 }
@@ -259,7 +254,7 @@ async function deleteProductView() {
   color: #ffd700;
   padding: 2rem;
   font-family: "Arial", sans-serif;
-  min-height: 100vh;
+  min-height: 85vh;
 }
 
 .column {

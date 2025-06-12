@@ -13,7 +13,6 @@ async function getOrders() {
     const response = await getUserOrders();
     orders.value = response.data;
   } catch (err) {
-    console.log("Error en la vista: " + err);
   }
 }
 </script>

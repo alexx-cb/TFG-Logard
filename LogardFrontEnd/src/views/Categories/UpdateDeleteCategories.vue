@@ -13,12 +13,10 @@ async function updateCategories() {
   try {
     const response = await updateCategory(props.categoryId, name.value);
     if (response.success) {
-      alert("actualizada con exito");
       name.value = ''
       emit('category-updated');
     }
   } catch (err) {
-    console.log(err);
   }
 }
 
@@ -27,10 +25,8 @@ async function deleteCategories() {
     const response = await deleteCategory(props.categoryId);
     if (response.success) {
       emit('category-updated');
-      alert("categoria eliminada correctamente");
     }
   } catch (err) {
-    console.log("Error al eliminar: " + err);
   }
 }
 </script>

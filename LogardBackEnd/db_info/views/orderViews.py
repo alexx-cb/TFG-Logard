@@ -1,12 +1,10 @@
 from datetime import timezone, datetime
-from decimal import Decimal
-
+from django.shortcuts import redirect
 from django.db import transaction
 from django.urls import reverse
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from db_info.Services.EmailService import EmailService
 from db_info.models import Order, RowsOrder, Cart, Product
 from db_info.payments.paypalService import PayPalService
@@ -103,6 +101,8 @@ class OrderCreateView(APIView):
             })
 
 
+
+
 class PaypalExecuteView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -118,43 +118,40 @@ class PaypalExecuteView(APIView):
             order = Order.objects.get(id=order_id, user=request.user)
 
             if order.status == 'Paid':
-                return Response({"error": "Order already paid"}, status=400)
+                return redirect(f"http://localhost:5174/payment-successful?order_id={order_id}")
 
             paypal = PayPalService()
-            payment = paypal.execute_payment(payment_id, payer_id)
+            paypal.execute_payment(payment_id, payer_id)
 
             order.status = 'Paid'
             order.save()
 
             user = request.user
             rows = list(order.rowsorder_set.select_related('product').all())
-            email_sent = EmailService.send_order_confirmation_email(order, user, rows)
+            EmailService.send_order_confirmation_email(order, user, rows)
 
             Cart.objects.filter(user=request.user).delete()
 
-            return Response({
-                "status": "success",
-                "payment_id": payment_id,
-                "order_id": order_id,
-                "message": "Payment successful and cart cleared"
-            })
+            return redirect(f"http://localhost:5174/payment-successful?order_id={order_id}")
 
         except Order.DoesNotExist:
-            return Response({"error": "Order not found"}, status=404)
+            return redirect(f"http://localhost:5174/payment-error?error=notfound")
         except Exception as e:
-            print(f"PayPal execution error: {str(e)}")
-            return Response({"error": str(e)}, status=500)
+            return redirect(f"http://localhost:5174/payment-error?error=server")
 
 class PayPalCancelView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         order_id = request.GET.get('order_id')
-        order = Order.objects.get(id=order_id)
-        order.status = 'Cancelled'
-        order.save()
-        return Response({"status": "cancelled" , "order_id": order_id})
+        try:
+            order = Order.objects.get(id=order_id)
+            order.status = 'Cancelled'
+            order.save()
+        except Order.DoesNotExist:
+            pass
 
+        return redirect(f"http://localhost:5174")
 
 
 class UserOrdersView(APIView):
