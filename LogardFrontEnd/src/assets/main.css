@@ -4,16 +4,10 @@
   font-weight: normal;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+a.router-link-active:hover,
+a.router-link-exact-active:hover,
+a.router-link:hover {
+  color: inherit !important; /* o el color que desees */
+  text-decoration: none;     /* opcional: quitar subrayado */
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}

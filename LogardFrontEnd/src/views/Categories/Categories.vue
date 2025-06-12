@@ -48,7 +48,6 @@ async function createNewCategory(){
 
 <template>
   <div class="categories-container">
-    <!-- Admin section for creating new category -->
     <div v-if="isUserLoaded && isAdmin" class="create-category-section">
       <div class="create-category-form">
         <h3>New Category</h3>
@@ -83,40 +82,26 @@ async function createNewCategory(){
           @category-updated="getAllCategories"
         />
       </div>
+      <hr class="divider" />
     </div>
   </div>
 </template>
 
 <style scoped>
+.divider{
+  border: none;
+  border-bottom: 1px solid #ffd700;
+  margin: 0;
+  width: 100%;
+  box-shadow: 0 1px 8px #111a;
+}
+
 .categories-container {
   background-color: #000;
   color: #fff;
   min-height: 100vh;
   padding: 20px;
   font-family: 'Arial', sans-serif;
-}
-
-.filters-nav {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 40px;
-  padding: 20px 0;
-}
-
-.filter-btn {
-  background: transparent;
-  border: none;
-  color: #888;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 10px 0;
-  transition: color 0.3s ease;
-}
-
-.filter-btn.active,
-.filter-btn:hover {
-  color: #FFD700;
-  border-bottom: 2px solid #FFD700;
 }
 
 .category-section {
@@ -141,29 +126,31 @@ async function createNewCategory(){
 
 .create-category-section {
   margin-bottom: 50px;
-  padding: 30px 0;
-  border-bottom: 1px solid #333;
 }
 
 .create-category-form {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   background: rgba(25, 25, 25, 0.9);
   border: 1px solid #444;
-  border-radius: 15px;
-  padding: 30px;
-  max-width: 600px;
-  margin: 0 auto;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-family: 'Arial', sans-serif;
+  color: #fff;
 }
 
 .create-category-form h3 {
   color: #FFD700;
-  margin-bottom: 20px;
-  font-size: 24px;
-  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  white-space: nowrap;
 }
 
 .form-container {
-  display: flex;
-  justify-content: center;
+  flex: 1;
 }
 
 .input-group {
@@ -171,37 +158,33 @@ async function createNewCategory(){
   align-items: center;
   background: #333;
   border-radius: 25px;
-  padding: 8px;
-  gap: 10px;
-  min-width: 400px;
+  padding: 4px 8px;
+  gap: 8px;
+  width: 100%;
 }
 
 .form-input {
   background: transparent;
   border: none;
   color: #fff;
-  padding: 12px 20px;
-  font-size: 16px;
+  padding: 8px 10px;
+  font-size: 14px;
   outline: none;
   flex: 1;
-}
-
-.form-input::placeholder {
-  color: #888;
 }
 
 .submit-btn {
   background: #FFD700;
   border: none;
   color: #000;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
@@ -209,7 +192,6 @@ async function createNewCategory(){
 .submit-btn:hover {
   background: #FFA500;
 }
-
 /* Responsive */
 @media (max-width: 768px) {
   .categories-container {

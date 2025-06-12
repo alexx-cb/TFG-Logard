@@ -88,8 +88,6 @@ function toggleForm() {
           </div>
           <div class="product-info">
             <h3 class="product-name">{{ product.name }}</h3>
-            <p class="product-price">{{ product.price }}€</p>
-            <p class="product-size">Size</p>
           </div>
         </router-link>
       </div>
@@ -109,11 +107,6 @@ function toggleForm() {
       <div class="add-product-form" :class="{ 'active': showForm }">
         <div class="form-header" @click="toggleForm">
           <span class="form-title">Add new Clothes</span>
-          <div class="form-fields">
-            <span>Name</span>
-            <span>Price</span>
-            <span>Image</span>
-          </div>
           <button class="toggle-btn">→</button>
         </div>
 
@@ -201,9 +194,9 @@ function toggleForm() {
 
 .product-image-container {
   position: relative;
-  background: linear-gradient(135deg, #ff4757, #ff3838);
+  background: none;
   border-radius: 15px;
-  padding: 20px;
+  overflow: hidden;
   margin-bottom: 15px;
   aspect-ratio: 1;
   display: flex;
@@ -212,9 +205,9 @@ function toggleForm() {
 }
 
 .product-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 10px;
 }
 
@@ -227,18 +220,6 @@ function toggleForm() {
   font-size: 18px;
   font-weight: bold;
   margin: 0 0 5px 0;
-}
-
-.product-price {
-  color: #888;
-  font-size: 14px;
-  margin: 0 0 5px 0;
-}
-
-.product-size {
-  color: #888;
-  font-size: 12px;
-  margin: 0;
 }
 
 .admin-add-section {
@@ -255,6 +236,7 @@ function toggleForm() {
 .form-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 20px;
   cursor: pointer;
   background: rgba(64, 64, 64, 0.9);
@@ -270,14 +252,6 @@ function toggleForm() {
   font-weight: bold;
   font-size: 16px;
   margin-right: 30px;
-}
-
-.form-fields {
-  display: flex;
-  gap: 100px;
-  flex: 1;
-  color: #FFD700;
-  font-size: 14px;
 }
 
 .toggle-btn {

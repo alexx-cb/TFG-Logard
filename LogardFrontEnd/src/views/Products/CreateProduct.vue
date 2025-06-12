@@ -154,8 +154,8 @@ function closeForm() {
 }
 
 .form-header {
+  width: 50%;
   display: flex;
-  justify-content: between;
   align-items: center;
   padding: 25px 30px 20px;
   border-bottom: 1px solid #333;
@@ -247,6 +247,7 @@ function closeForm() {
 
 .image-upload-area {
   flex: 1;
+  margin-top: 20px;
 }
 
 .file-label {
