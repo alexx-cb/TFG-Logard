@@ -6,7 +6,7 @@ import { getUserCart } from "@/composables/useCart.js";
 const address = ref('');
 const locality = ref('');
 const province = ref('');
-const cart = ref({ items: [], total: 0 }); // Inicializamos con la estructura correcta
+const cart = ref({ items: [], total: 0 });
 const approvalUrl = ref(null);
 const errorMsg = ref('');
 
@@ -45,37 +45,245 @@ async function submitOrder() {
 </script>
 
 <template>
-  <div>
-    <h2>Resumen del pedido</h2>
-    <ul>
-      <li v-for="item in cart.items" :key="item.id">
-        {{item}}
-        <img :src="item.image" alt="" style="width: 40px; vertical-align: middle; margin-right: 8px;">
-        {{ item.product_name }} ({{ item.size }}) x {{ item.units }}
-        <span v-if="item.product_discount && item.product_discount !== '0.00'">
-          - <s>{{ item.product_price }}€</s> <b>{{ item.price_with_discount }}€</b> c/u
-        </span>
-        <span v-else>
-          - {{ item.product_price }}€
-        </span>
-        = <b>{{ item.total_price_with_discount ?? item.total_price }}€</b>
-      </li>
-    </ul>
-    <p><b>Total: {{ total }}€</b></p>
-
-    <form @submit.prevent="submitOrder">
-      <input v-model="address" placeholder="Dirección" required />
-      <input v-model="locality" placeholder="Localidad" required />
-      <input v-model="province" placeholder="Provincia" required />
-      <button type="submit">Pagar con PayPal</button>
-    </form>
-
-    <div v-if="approvalUrl">
-      <h3>Redirigiendo a PayPal...</h3>
-      <a :href="approvalUrl" target="_blank">Haz clic aquí si no eres redirigido</a>
+  <div class="checkout-container">
+    <h2 class="checkout-title">Resumen del pedido</h2>
+    <div v-if="cart.items.length === 0" class="empty-cart">
+      <div class="empty-cart-icon">🛒</div>
+      <h3>Tu carrito está vacío</h3>
+      <p>Agrega productos antes de realizar el pedido.</p>
     </div>
-    <div v-if="errorMsg" style="color: red;">
-      {{ errorMsg }}
+    <div v-else class="checkout-content">
+      <ul class="checkout-items">
+        <li v-for="item in cart.items" :key="item.id" class="checkout-item">
+          <img :src="`http://localhost:8000${item.image}`" alt="" class="checkout-img" />
+          <div class="checkout-details">
+            <span class="checkout-product">{{ item.product_name }}</span>
+            <span class="checkout-size">Talla: {{ item.size }}</span>
+            <span class="checkout-units">{{ item.units }} ud.</span>
+          </div>
+          <div class="checkout-prices">
+            <span v-if="item.product_discount && item.product_discount !== '0.00'" class="original-price">
+              <s>{{ item.product_price }}€</s>
+            </span>
+            <span v-if="item.product_discount && item.product_discount !== '0.00'" class="discounted-price">
+              {{ item.price_with_discount }}€ c/u
+            </span>
+            <span v-else class="discounted-price">
+              {{ item.product_price }}€ c/u
+            </span>
+            <span class="checkout-total">
+              = <b>{{ item.total_price_with_discount ?? item.total_price }}€</b>
+            </span>
+          </div>
+        </li>
+      </ul>
+      <div class="checkout-summary">
+        <span class="summary-label">Total:</span>
+        <span class="summary-total">{{ total }}€</span>
+      </div>
+      <form @submit.prevent="submitOrder" class="checkout-form">
+        <input v-model="address" placeholder="Dirección" required />
+        <input v-model="locality" placeholder="Localidad" required />
+        <input v-model="province" placeholder="Provincia" required />
+        <button type="submit" class="checkout-btn">Pagar con PayPal</button>
+      </form>
+      <div v-if="approvalUrl" class="paypal-redirect">
+        <h3>Redirigiendo a PayPal...</h3>
+        <a :href="approvalUrl" target="_blank">Haz clic aquí si no eres redirigido</a>
+      </div>
+      <div v-if="errorMsg" class="checkout-error">
+        {{ errorMsg }}
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.checkout-container {
+  background: #000;
+  color: #ffe600;
+  min-height: 100vh;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.checkout-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 40px 0 24px 0;
+  letter-spacing: 2px;
+}
+
+.empty-cart {
+  text-align: center;
+  margin-top: 120px;
+  color: #ffe600;
+}
+
+.empty-cart-icon {
+  font-size: 4rem;
+  margin-bottom: 24px;
+}
+
+.checkout-content {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+.checkout-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.checkout-item {
+  background: #181818;
+  border-radius: 14px;
+  box-shadow: 0 0 0 4px #ff0000, 0 0 16px 0 #ff0000 inset;
+  padding: 18px 18px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.checkout-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #222;
+}
+
+.checkout-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.checkout-product {
+  font-weight: bold;
+  font-size: 1.05rem;
+}
+
+.checkout-size,
+.checkout-units {
+  font-size: 0.95rem;
+}
+
+.checkout-prices {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  min-width: 120px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  opacity: 0.7;
+  color: #ffe600;
+}
+
+.discounted-price {
+  color: #ffe600;
+  font-size: 0.97rem;
+  font-weight: bold;
+}
+
+.checkout-total {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: #ffe600;
+}
+
+.checkout-summary {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.2rem;
+  margin-top: 12px;
+}
+
+.summary-label {
+  font-weight: bold;
+}
+
+.summary-total {
+  font-size: 1.35rem;
+  font-weight: bold;
+}
+
+.checkout-form {
+  display: flex;
+  gap: 18px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.checkout-form input {
+  background: #222;
+  color: #ffe600;
+  border: 1px solid #ffe600;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  outline: none;
+  width: 180px;
+}
+
+.checkout-btn {
+  background: #444;
+  color: #ffe600;
+  border: none;
+  padding: 12px 36px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.checkout-btn:hover {
+  background: #222;
+}
+
+.paypal-redirect {
+  margin-top: 24px;
+  color: #ffe600;
+  text-align: center;
+}
+
+.checkout-error {
+  color: #ff3333;
+  margin-top: 18px;
+  font-weight: bold;
+}
+
+@media (max-width: 800px) {
+  .checkout-content {
+    max-width: 98vw;
+    padding: 0 2vw;
+  }
+  .checkout-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .checkout-form input {
+    width: 100%;
+  }
+}
+</style>

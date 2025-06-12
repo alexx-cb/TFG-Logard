@@ -10,6 +10,7 @@ import Cart from "@/views/Cart/Cart.vue";
 import AnonymousCart from "@/views/Cart/AnonymousCart.vue";
 import NewOrder from "@/views/Orders/NewOrder.vue";
 import PayPalCallBack from "@/views/PayPalCallBack.vue";
+import NotFound from "@/views/NotFound.vue";
 
 const routes = [
     // Landing Page
@@ -42,6 +43,9 @@ const routes = [
 
     // Verify Account Route (VERIFY)
     { path: '/verify', name: 'verify-user', component: Verify},
+
+    // Not Found Route (404)
+    { path: '/:pathMatch(.*)*', name: 'not.found', component: NotFound}
 
 ]
 

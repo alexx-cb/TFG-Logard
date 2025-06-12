@@ -26,6 +26,7 @@ onMounted(async () => {
 
       <!-- Derecha -->
       <div class="nav-right">
+        <RouterLink v-if="isAuthenticated" to="/my-orders">My Orders</RouterLink>
         <RouterLink v-if="!isAuthenticated" to="/login">Login</RouterLink>
         <RouterLink v-else to="/session">Session</RouterLink>
         <RouterLink v-if="isAuthenticated" to="/cart">Cart</RouterLink>
