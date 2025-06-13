@@ -30,4 +30,4 @@ COPY . .
 EXPOSE 8000
 
 # Comando para ejecutar el servidor (puedes cambiar gunicorn según tu proyecto)
-CMD ["gunicorn", "LogardBackEnd.wsgi:application", "--bind", "0.0.0.0:$PORT"]
+CMD gunicorn LogardBackEnd.wsgi:application --bind 0.0.0.0:$PORT
