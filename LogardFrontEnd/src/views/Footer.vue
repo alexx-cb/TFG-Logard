@@ -3,7 +3,7 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="logo-section">
-        <img src="../../public/img/Logard.png" alt="Logard" class="logo-image" />
+        <img src="/img/Logard.png" alt="Logard" class="logo-image" />
       </div>
 
       <div class="contact-section">

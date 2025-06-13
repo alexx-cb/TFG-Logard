@@ -12,7 +12,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
+import dj_database_url
 from decouple import config, Csv
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,7 +35,8 @@ MEDIA_URL =  '/img/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'img')
 
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS = ['.railway.app', 'localhost', '127.0.0.1']
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5174",
     "http://127.0.0.1:5174",
@@ -135,14 +139,7 @@ WSGI_APPLICATION = 'LogardBackEnd.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': config('DATABASE_ENGINE'),
-        'NAME': config('DATABASE_NAME'),
-        'USER': config('DATABASE_USER'),
-        'PASSWORD': config('DATABASE_PASSWORD'),
-        'HOST': config('DATABASE_HOST'),  # o IP del servidor
-        'PORT': config('DATABASE_PORT'),
-    }
+    'default': dj_database_url.config(conn_max_age=600)
 }
 
 

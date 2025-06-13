@@ -27,7 +27,7 @@ onMounted(async () => {
 
       <div class="nav-center">
         <RouterLink to="/" class="logo">
-          <img src="../public/img/Logard.png" alt="logo" class="logo-img" />
+          <img src="/img/Logard.png" alt="logo" class="logo-img" />
         </RouterLink>
       </div>
 
