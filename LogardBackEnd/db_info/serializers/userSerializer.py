@@ -24,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         token = generate_verification_token(user)
 
-        verification_link = f"https://logard.es/verify?token={token}"
+        verification_link = f"https://logardfrontend.up.railway.app/verify?token={token}"
         configuration = Configuration()
         configuration.api_key['api-key'] = settings.API_KEY_BREVO
         api_client = ApiClient(configuration)

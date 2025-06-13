@@ -118,7 +118,7 @@ class PaypalExecuteView(APIView):
             order = Order.objects.get(id=order_id, user=request.user)
 
             if order.status == 'Paid':
-                return redirect(f"https://logard.es/payment-successful?order_id={order_id}")
+                return redirect(f"https://logardfrontend.up.railway.app/payment-successful?order_id={order_id}")
 
             paypal = PayPalService()
             paypal.execute_payment(payment_id, payer_id)
@@ -132,12 +132,12 @@ class PaypalExecuteView(APIView):
 
             Cart.objects.filter(user=request.user).delete()
 
-            return redirect(f"https://logard.es/payment-successful?order_id={order_id}")
+            return redirect(f"https://logardfrontend.up.railway.app/payment-successful?order_id={order_id}")
 
         except Order.DoesNotExist:
-            return redirect(f"https://logard.es/payment-error?error=notfound")
+            return redirect(f"https://logardfrontend.up.railway.app/payment-error?error=notfound")
         except Exception as e:
-            return redirect(f"https://logard.es/payment-error?error=server")
+            return redirect(f"https://logardfrontend.up.railway.app/payment-error?error=server")
 
 class PayPalCancelView(APIView):
     permission_classes = [IsAuthenticated]
@@ -151,7 +151,7 @@ class PayPalCancelView(APIView):
         except Order.DoesNotExist:
             pass
 
-        return redirect(f"https://logard.es")
+        return redirect(f"https://logardfrontend.up.railway.app")
 
 
 class UserOrdersView(APIView):
