@@ -31,8 +31,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 # DIR OF IMG FROM THE FRONT
-MEDIA_URL =  '/img/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'img')
+MEDIA_URL =  '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 ALLOWED_HOSTS = ['logard.es','.railway.app', 'localhost', '127.0.0.1']
