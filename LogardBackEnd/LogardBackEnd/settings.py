@@ -35,9 +35,10 @@ MEDIA_URL =  '/img/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'img')
 
 
-ALLOWED_HOSTS = ['.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['logard.es','.railway.app', 'localhost', '127.0.0.1']
 
 CORS_ALLOWED_ORIGINS = [
+    "https://logard.es",
     "http://localhost:5174",
     "http://127.0.0.1:5174",
 ]
@@ -107,6 +108,7 @@ SESSION_COOKIE_SECURE = False  # True en producción con HTTPS
 CSRF_COOKIE_SECURE = False     # True en producción con HTTPS
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://logard.es",
     "http://localhost:5174",
     "http://127.0.0.1:5174",
 ]

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const publicApi = axios.create({
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: 'https://logard-backed.up.railway.app/api/',
     withCredentials: false
 })
 

@@ -73,7 +73,7 @@ function onCartUpdated() {
         >
           <div class="item-image">
             <div class="product-placeholder">
-              <img :src="`http://localhost:8000${item.image}`">
+              <img :src="`https://logard-backed.up.railway.app{item.image}`">
             </div>
           </div>
 

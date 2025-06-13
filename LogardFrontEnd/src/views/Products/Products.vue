@@ -78,7 +78,7 @@ function toggleForm() {
         >
           <div class="product-image-container">
             <img
-              :src="`http://localhost:8000${product.image}`"
+              :src="`https://logard-backed.up.railway.app${product.image}`"
               :alt="product.name"
               class="product-image"
             />

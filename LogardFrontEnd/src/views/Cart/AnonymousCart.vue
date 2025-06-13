@@ -43,7 +43,7 @@ function clearCart() {
       <div class="cart-items">
         <div v-for="item in cartItems" :key="`${item.product}-${item.size}`" class="cart-item">
           <div class="item-image">
-            <img :src="`http://localhost:8000${item.product_info.image}`" class="product-placeholder" />
+            <img :src="`https://logard-backed.up.railway.app${item.product_info.image}`" class="product-placeholder" />
           </div>
 
           <div class="item-details">

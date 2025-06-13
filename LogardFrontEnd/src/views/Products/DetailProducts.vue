@@ -154,7 +154,7 @@ async function deleteProductView() {
     </div>
 
     <div class="column center">
-      <img :src="`http://localhost:8000${product.image}`" alt="product" v-if="product.image" />
+      <img :src="`https://logard-backed.up.railway.app${product.image}`" alt="product" v-if="product.image" />
       <div class="cart-container">
         <AddCart :product-id="productId" />
       </div>

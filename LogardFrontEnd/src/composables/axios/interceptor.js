@@ -2,7 +2,7 @@ import axios from "axios";
 import {isAuthenticated, tryRefreshToken, user} from "../useAuth.js"
 
 const api = axios.create({
-    baseURL : "http://localhost:8000/api/",
+    baseURL : "https://logard-backed.up.railway.app/api/",
     withCredentials: true
 })
 

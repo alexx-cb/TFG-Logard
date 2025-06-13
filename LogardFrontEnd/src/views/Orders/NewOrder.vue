@@ -55,7 +55,7 @@ async function submitOrder() {
     <div v-else class="checkout-content">
       <ul class="checkout-items">
         <li v-for="item in cart.items" :key="item.id" class="checkout-item">
-          <img :src="`http://localhost:8000${item.image}`" alt="" class="checkout-img" />
+          <img :src="`https://logard-backed.up.railway.app${item.image}`" alt="" class="checkout-img" />
           <div class="checkout-details">
             <span class="checkout-product">{{ item.product_name }}</span>
             <span class="checkout-size">Size: {{ item.size }}</span>

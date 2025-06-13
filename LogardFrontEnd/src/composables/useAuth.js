@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import api from "@/composables/axios/interceptor.js";
 import {mergeLocalCartToUser} from "@/composables/useCart.js";
 
-axios.defaults.baseURL = 'http://localhost:8000/api/'
+axios.defaults.baseURL = 'https://logard-backed.up.railway.app/api/'
 axios.defaults.withCredentials = true;
 
 export const isAuthenticated = ref(false)
@@ -68,7 +68,7 @@ export async function getCurrentUser() {
 // Intentar refrescar el token con cookies
 export async function tryRefreshToken() {
     try {
-        const response = await axios.post('http://localhost:8000/api/token/refresh-cookie/', {})
+        const response = await axios.post('https://logard-backed.up.railway.app/api/token/refresh-cookie/', {})
         return response.status === 200
     } catch (err) {
         return false
