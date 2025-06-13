@@ -30,8 +30,6 @@ COPY . .
 # Crear directorios para archivos media y static
 RUN mkdir -p /app/media /app/staticfiles
 
-# Recopilar archivos estáticos
-RUN python manage.py collectstatic --noinput
 
 # Asegurar permisos para media
 RUN chmod -R 755 /app/media
