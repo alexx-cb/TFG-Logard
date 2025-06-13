@@ -26,8 +26,8 @@ RUN pip install -r requirements.txt
 # Copia todo el proyecto dentro del contenedor
 COPY . .
 
-# Expón el puerto (opcional si Railway detecta automáticamente)
+# Expón el puerto
 EXPOSE 8000
 
-# Comando para ejecutar el servidor (puedes cambiar gunicorn según tu proyecto)
-CMD gunicorn LogardBackEnd.wsgi:application --bind 0.0.0.0:${PORT:-8000}
+# Comando para ejecutar el servidor con puerto por defecto
+CMD gunicorn LogardBackEnd.wsgi:application --bind 0.0.0.0:${PORT:-8000} --log-file -
