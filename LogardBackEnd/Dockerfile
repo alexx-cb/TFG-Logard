@@ -3,6 +3,7 @@ FROM python:3.11-slim
 
 # Evita que Python guarde archivos .pyc y buffer
 ENV PYTHONUNBUFFERED=1
+ENV PORT=8000
 
 # Crea y usa el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -29,5 +30,5 @@ COPY . .
 # Expón el puerto
 EXPOSE 8000
 
-# Comando para ejecutar el servidor con puerto por defecto
-CMD gunicorn LogardBackEnd.wsgi:application --bind 0.0.0.0:${PORT:-8000} --log-file -
+# Comando para ejecutar el servidor
+CMD gunicorn LogardBackEnd.wsgi:application --bind 0.0.0.0:$PORT --log-file -
