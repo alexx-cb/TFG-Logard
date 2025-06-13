@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { getLocalCartWithDetails, clearLocalCart } from "@/composables/useCart.js";
-import UpdateAnonymousCart from "@/views/Cart/updateAnonymousCart.vue";
+import UpdateAnonymousCart from "@/views/Cart/UpdateAnonymousCart.vue";
 import "./Cart.vue";
 
 const cartItems = ref([]);
