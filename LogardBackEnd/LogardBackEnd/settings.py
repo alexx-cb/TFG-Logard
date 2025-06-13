@@ -34,6 +34,9 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 MEDIA_URL =  '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Dir OF STATIC FILES
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 ALLOWED_HOSTS = ['logard.es','.railway.app', 'localhost', '127.0.0.1']
 
