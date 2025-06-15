@@ -108,7 +108,7 @@ async function updateProduct() {
 }
 
 async function deleteProductView() {
-  if (confirm("¿Estás seguro de que quieres eliminar este producto?")) {
+  if (confirm("You want to delete this product?")) {
     try {
       const response = await deleteProduct(productId);
       if (response.success) {

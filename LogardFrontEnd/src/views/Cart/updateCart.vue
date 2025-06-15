@@ -12,8 +12,10 @@ const props = defineProps({
 const emit = defineEmits(['cart-updated']);
 
 const isLoading = ref(false);
+const message = ref('');
 
 async function updateItemUnits(itemId, newUnits) {
+  message.value = '';
   isLoading.value = true;
   try {
     const response = await api.patch(`cart/update/${itemId}/`, { units: newUnits });
@@ -21,8 +23,7 @@ async function updateItemUnits(itemId, newUnits) {
       emit('cart-updated');
     }
   } catch (err) {
-    console.error("Error actualizando unidades:", err);
-    alert("Error al actualizar las unidades. Inténtalo de nuevo.");
+    message.value = "Error updating the units of the product"
   } finally {
     isLoading.value = false;
   }
@@ -41,7 +42,8 @@ async function removeOneUnit() {
 }
 
 async function removeItem() {
-  if (confirm(`¿Estás seguro de que quieres eliminar "${props.item.product_name}" (${props.item.size}) del carrito?`)) {
+  if (confirm(`Are you sure you want to delete the product "${props.item.product_name}" (${props.item.size}) form the cart?`)) {
+    message.value = '';
     isLoading.value = true;
     try {
       const response = await api.delete(`cart/update/${props.item.id}/`);
@@ -49,8 +51,7 @@ async function removeItem() {
         emit('cart-updated');
       }
     } catch (err) {
-      console.error("Error eliminando item:", err);
-      alert("Error al eliminar el producto. Inténtalo de nuevo.");
+      message.value = "Error deleting the product"
     } finally {
       isLoading.value = false;
     }
@@ -59,18 +60,30 @@ async function removeItem() {
 </script>
 
 <template>
-  <div class="item-actions">
-    <button @click="removeOneUnit" :disabled="item.units <= 1 || isLoading" class="quantity-btn">-</button>
-    <span class="quantity-display">{{ item.units }}</span>
-    <button @click="addOneUnit" :disabled="isLoading" class="quantity-btn">+</button>
-    <button @click="removeItem" :disabled="isLoading" class="remove">
-      <span v-if="isLoading">⏳</span>
-      <span v-else>Remove</span>
-    </button>
+  <div class="item-actions-container">
+    <div class="item-actions">
+      <button @click="removeOneUnit" :disabled="item.units <= 1 || isLoading" class="quantity-btn">-</button>
+      <span class="quantity-display">{{ item.units }}</span>
+      <button @click="addOneUnit" :disabled="isLoading" class="quantity-btn">+</button>
+      <button @click="removeItem" :disabled="isLoading" class="remove">
+        <span v-if="isLoading">⏳</span>
+        <span v-else>Remove</span>
+      </button>
+    </div>
+
+    <div v-if="message" class="message-box">
+      {{ message }}
+    </div>
   </div>
 </template>
 
 <style scoped>
+.item-actions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .item-actions {
   display: flex;
   align-items: center;
@@ -135,4 +148,16 @@ async function removeItem() {
   cursor: not-allowed;
 }
 
+.message-box {
+  background: #181818;
+  border: 1px solid #ffe600;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #ffe600;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(255, 230, 0, 0.1);
+  max-width: 250px;
+}
 </style>

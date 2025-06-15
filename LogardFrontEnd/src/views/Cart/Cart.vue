@@ -25,7 +25,7 @@ async function getCart() {
 }
 
 async function clearCompleteCart() {
-  if (confirm("¿Estás seguro de que quieres vaciar todo el carrito?")) {
+  if (confirm("Are you sure you want to clear all the cart?")) {
     try {
       const response = await api.delete("cart/clear/");
       if (response.status === 200) {
@@ -73,7 +73,7 @@ function onCartUpdated() {
         >
           <div class="item-image">
             <div class="product-placeholder">
-              <img :src="`https://logard-backed.up.railway.app{item.image}`">
+              <img :src="`https://logard-backed.up.railway.app${item.image}`" :alt="item.name">
             </div>
           </div>
 

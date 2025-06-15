@@ -17,7 +17,7 @@ function handleCartUpdate() {
 }
 
 function clearCart() {
-  if (confirm("¿Vaciar el carrito completamente?")) {
+  if (confirm("Are you sure you want to clear all the cart?")) {
     clearLocalCart();
     loadCart();
   }

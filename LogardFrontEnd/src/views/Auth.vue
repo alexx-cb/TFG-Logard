@@ -22,6 +22,7 @@ const surname = ref('')
 const message = ref('')
 
 async function loginUser() {
+  message.value = ''
   const res = await login(email.value, password.value)
   if (res.success) {
     email.value = ''
@@ -33,9 +34,10 @@ async function loginUser() {
 }
 
 async function registerUser() {
+  message.value = ''
   const res = await register(name.value, surname.value, email.value, password.value)
   if (res?.success === false) {
-    alert('Error al registrar usuario.')
+    message.value = "Error in the user register"
     return
   }
   message.value = "Correct registration. Please check your email."
@@ -50,11 +52,17 @@ async function logoutUser() {
   await router.push('/')
 }
 
-watch(() => route.path, () => {})
+watch(() => route.path, () => {
+  message.value = ''
+})
 </script>
 
 <template>
   <div class="auth-container">
+    <div v-if="message" class="message-box">
+      {{ message }}
+    </div>
+
     <div v-if="mode === 'authenticated'" class="auth-box">
       <p>Welcome, {{userName}}.</p>
       <button class="auth-btn" @click="logoutUser">Log Out</button>
@@ -98,9 +106,23 @@ watch(() => route.path, () => {})
   background: #000;
   color: #ffe600;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: 'Arial', sans-serif;
+  gap: 20px;
+}
+
+.message-box {
+  background: #181818;
+  border: 1px solid #ffe600;
+  border-radius: 6px;
+  padding: 12px 20px;
+  color: #ffe600;
+  text-align: center;
+  max-width: 400px;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(255, 230, 0, 0.1);
 }
 
 .auth-box {
@@ -169,6 +191,11 @@ watch(() => route.path, () => {})
     min-width: unset;
     width: 98vw;
     padding: 24px 4vw;
+  }
+
+  .message-box {
+    width: 90vw;
+    max-width: none;
   }
 }
 </style>
